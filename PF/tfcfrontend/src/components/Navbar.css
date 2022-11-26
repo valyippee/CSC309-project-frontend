@@ -1,0 +1,18 @@
+.logo-image {
+    height: 5rem;
+    width: 15rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+} 
+
+.navbar {
+    width: 100%;
+}
+
+.search-bar {
+    width: 50vh;
+}
+
+.navbar-items {
+    justify-content: space-evenly;
+}
