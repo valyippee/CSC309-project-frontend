@@ -10,7 +10,7 @@
 }
 
 .search-bar {
-    width: 50vh;
+    width: 50vh !important;
 }
 
 .navbar-items {
