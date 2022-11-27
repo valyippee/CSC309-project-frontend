@@ -1,6 +1,7 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ProfileTab from '../components/profile/ProfileTab';
+import SubscriptionsTab from '../components/subscriptions/SubscriptionsTab';
 import Title from '../components/Title';
 import './AccountPage.css'
 
@@ -8,14 +9,14 @@ function AccountPage() {
     
   return (
     <>
-    <Title title="Account"/>
+    <Title title="My Account"/>
     <div className="accounts-container">
         <Tabs defaultActiveKey="profile" id="fill-tab" fill>
         <Tab className="tab-container" eventKey="profile" title="Profile">
             <ProfileTab/>
         </Tab>
         <Tab className="tab-container" eventKey="subscriptions" title="Subscriptions">
-            Tab 2
+            <SubscriptionsTab/>
         </Tab>
         <Tab className="tab-container" eventKey="upcomingPayments" title="Upcoming Payments">
             Tab 3
