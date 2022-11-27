@@ -8,7 +8,6 @@ export function getProfile(setProfile, token) {
             Authorization: 'Token ' + token
         }
     }).then((res) => {
-        console.log(res.data)
         setProfile(res.data)
     });
 }

@@ -14,7 +14,7 @@ function ProfileTab() {
 
     return (
     <div>
-        {user && <Profile user={user}></Profile>}
+        {user && <Profile user={user} setUser={setUser}></Profile>}
     </div>
     )
 }
