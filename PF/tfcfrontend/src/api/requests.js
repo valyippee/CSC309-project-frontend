@@ -44,3 +44,15 @@ export function getAvatar(setAvatar, token) {
         }
     });
 }
+
+export function getCard(setCard, token) {
+    axios.get(server_url + "api/accounts/cardinfo/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.data) {
+            setCard(res.data[0])
+        }
+    });
+}
