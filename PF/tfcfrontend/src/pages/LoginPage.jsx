@@ -1,5 +1,5 @@
 import {React, useState, useContext} from 'react'
-import { AuthContext } from '../api/AuthContext'
+import AuthContext from '../api/AuthContext'
 import Navbar from '../components/Navbar'
 import '../App.css'
 import './LoginPage.css'

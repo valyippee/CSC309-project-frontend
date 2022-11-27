@@ -12,13 +12,12 @@ import { AuthProvider } from './api/AuthContext'
 function App() {
   return (
     <BrowserRouter>
-      <Navbar/>
       <AuthProvider>
+      <Navbar/>
         <Routes>
             <Route path='/' element={<Home />}></Route>
             <Route path='/register/' element={<RegisterPage />}></Route>
             <Route path='/login/' element={<LoginPage />}></Route>
-
         </Routes>
       </AuthProvider>
     </BrowserRouter>

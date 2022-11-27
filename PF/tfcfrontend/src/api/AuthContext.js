@@ -1,10 +1,12 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // This file contains the logic for storing auth tokens and user information
 
-export const AuthContext = createContext({});
+const AuthContext = createContext({});
+
+export default AuthContext;
 
 const server_url = "http://127.0.0.1:8000";
 
@@ -55,7 +57,7 @@ export const AuthProvider = ({children}) => {
             setError(err.response.data)
         })
     }
-    
+
     let context = {
         token: token,
         login: login,
