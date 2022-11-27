@@ -11,6 +11,7 @@ li.nav-item {
 .accounts-container {
     width: fit-content;
     margin: auto;
+    margin-bottom: 5%;
 }
 
 .nav-link {
