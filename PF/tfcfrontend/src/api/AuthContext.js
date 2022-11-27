@@ -14,7 +14,7 @@ export const AuthProvider = ({children}) => {
 
     const navigate = useNavigate();
 
-    let login = async(email, password) => {
+    let login = async(email, password, setError) => {
         axios.post(`${server_url}/api/accounts/login/`, {
             email: email,
             password: password
@@ -26,8 +26,7 @@ export const AuthProvider = ({children}) => {
                 navigate("/")
             }
         }).catch(() => {
-            // TODO, just alert for now to test it works
-            alert("Your email or password was incorrect.")
+            setError("Email or password is incorrect.")
         })
     }
 
