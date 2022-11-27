@@ -13,15 +13,16 @@ input {
 }
 
 .form-group {
-    margin-top: 1rem !important;
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important; 
 }
 
-.register-container {
+.login-container{
     width: 50%;
     margin-left: auto;
     margin-right: auto;
     border: black 1px solid;
-    padding: 3rem;
+    padding: 5rem;
     margin-top: 10%;
     margin-bottom: 10%;
     justify-content: center;
@@ -33,7 +34,7 @@ input {
 } 
 
 @media only screen and (max-width: 800px) {
-    .register-container {
+    .login-container {
       width: 90%;
     }
 }

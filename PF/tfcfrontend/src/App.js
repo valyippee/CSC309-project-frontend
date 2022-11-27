@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.js';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/register/' element={<RegisterPage />}></Route>
+        <Route path='/login/' element={<LoginPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

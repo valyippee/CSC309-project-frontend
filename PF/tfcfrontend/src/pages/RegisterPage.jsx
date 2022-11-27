@@ -47,7 +47,7 @@ function RegisterPage() {
             </div>
 
             <div className="col-auto my-1">
-                <button type="submit" className="btn btn-primary">Sign Up</button>
+                <button type="submit" className="btn btn-lg btn-primary">Sign Up</button>
             </div>
 
         </form>
