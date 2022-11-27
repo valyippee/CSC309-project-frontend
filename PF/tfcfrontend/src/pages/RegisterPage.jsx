@@ -1,5 +1,4 @@
 import {React, useState} from 'react'
-import Navbar from '../components/Navbar'
 import './RegisterPage.css'
 
 function RegisterPage() {
@@ -21,7 +20,6 @@ function RegisterPage() {
 
     return (
         <>
-        <Navbar></Navbar>
         <div className="register-container">
 
             <h2>Sign Up</h2>
