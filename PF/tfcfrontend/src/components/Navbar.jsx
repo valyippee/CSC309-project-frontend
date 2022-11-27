@@ -43,7 +43,7 @@ function Header() {
 
                         {token && 
                             <NavDropdown className="account-dropdown" title="Account">
-                            <NavDropdown.Item href="#action3">Profile</NavDropdown.Item>
+                            <NavDropdown.Item href="/accounts/">Profile</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">My classes</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Subscriptions</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Payments</NavDropdown.Item>
