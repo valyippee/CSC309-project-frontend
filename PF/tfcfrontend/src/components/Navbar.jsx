@@ -17,7 +17,7 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 function Header() {
 
-    let {token} = useContext(AuthContext)
+    let {token, logout} = useContext(AuthContext)
 
     return (
         <>
@@ -49,7 +49,7 @@ function Header() {
                             <NavDropdown.Item href="#action4">Manage Payments</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">My Card</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item href="#action5">Logout</NavDropdown.Item>
+                            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         }
 
