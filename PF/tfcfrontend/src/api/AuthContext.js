@@ -31,16 +31,37 @@ export const AuthProvider = ({children}) => {
         })
     }
 
-    let logout = () => {
+    let logout = async() => {
         setToken(null);
         localStorage.removeItem("token");
         navigate("/");
     };
+
+    let register = async(email, fname, lname, phone, password, setError) => {
+
+        axios.post(`${server_url}/api/accounts/register/`, {
+            first_name: fname,
+            last_name: lname,
+            email: email,
+            phone_number: phone,
+            password: password
+        }).then((res) => {
+    
+            if (res.status === 201) {
+                navigate("/login")
+            }
+    
+        }).catch((err) => {
+            console.log(err)
+            setError(err.response.data)
+        })
+    }
     
     let context = {
         token: token,
         login: login,
         logout: logout,
+        register: register,
     }
 
     return(

@@ -27,6 +27,16 @@ input {
     justify-content: center;
 }
 
+.error-message {
+    text-align: center;
+    margin-bottom:0;
+    color: red;
+}
+
+.btn-primary:hover {
+    background-color: #626080;
+}
+
 .btn-primary {
     margin-top: 2rem;
     background-color: #403E56;

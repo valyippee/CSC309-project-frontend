@@ -1,5 +1,7 @@
-import {React, useState} from 'react'
+import {React, useState, useContext} from 'react'
+import { AuthContext } from '../api/AuthContext'
 import './RegisterPage.css'
+import { register } from '../api/requests'
 
 function RegisterPage() {
 
@@ -11,11 +13,22 @@ function RegisterPage() {
         password: '',
     })
 
+    let [error, setError] = useState(null)
+
     const onChange = (e) => {
         setUser((prevState) => ({
           ...prevState,
           [e.target.name]: e.target.value,
         }))
+    }
+
+    let {register} = useContext(AuthContext)
+
+    const registerUser = (e) => {
+
+        e.preventDefault()
+
+        register(user.email, user.fname, user.lname, user.phone, user.password, setError)
     }
 
     return (
@@ -24,7 +37,9 @@ function RegisterPage() {
 
             <h2>Sign Up</h2>
             
-            <form className="text-center">
+            {error && error.email && <p className='error-message'>{error.email[0]}</p>}
+
+            <form onSubmit={registerUser} className="text-center">
                 <div className="form-group row">
                     <label htmlFor="email" className="col-sm-2 col-form-label col-form-label-md">Email Address:</label>
                     <div className="col">
@@ -52,6 +67,8 @@ function RegisterPage() {
                     <input onChange={onChange} value={user.phone} name="phone" type="number" className="form-control form-control-lg" id="phone"/>
                     </div>
                 </div>
+
+                {error && error.password && <p className='error-message'>{error.password[0]}</p>}
 
                 <div className="form-group row">
                     <label htmlFor="password" className="col-sm-2 col-form-label col-form-label-md">Password:</label>
