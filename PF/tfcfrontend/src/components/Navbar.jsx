@@ -37,6 +37,11 @@ function Header() {
                     <Nav.Link className="nav-item" href="#action2">Subscriptions</Nav.Link>
 
                     <NavDropdown className="account-dropdown" title="Account">
+                    <NavDropdown.Item href="#action3">Login</NavDropdown.Item>
+                    <NavDropdown.Item href="#action4">Register</NavDropdown.Item>
+                    </NavDropdown>
+
+                    {/* <NavDropdown className="account-dropdown" title="Account">
                     <NavDropdown.Item href="#action3">Profile</NavDropdown.Item>
                     <NavDropdown.Item href="#action4">My classes</NavDropdown.Item>
                     <NavDropdown.Item href="#action4">Manage Subscriptions</NavDropdown.Item>
@@ -44,7 +49,7 @@ function Header() {
                     <NavDropdown.Item href="#action4">My Card</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item href="#action5">Logout</NavDropdown.Item>
-                    </NavDropdown>
+                    </NavDropdown> */}
 
                 </Nav>
 
