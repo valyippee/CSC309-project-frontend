@@ -52,8 +52,8 @@ function CardInfo(props) {
 
                     <div className="form-group row">
                         <label htmlFor="fname" className="col-sm-2 col-form-label col-form-label-md">Expiry:</label>
-                        <div className="expiry col-2">
-                            <div className="month">
+                        <div className="expiry col-7">
+                            <div className="month col-3">
                                 <input required={true} placeholder="mm" onChange={onChange} value={props.card.exp_month} name="exp_month" type="number" className="form-control form-control-lg" id="month"/>
                             </div>
                             <p> / </p>
