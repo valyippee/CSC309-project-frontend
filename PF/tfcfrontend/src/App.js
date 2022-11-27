@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './api/AuthContext'
+import AccountPage from './pages/AccountPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/' element={<Home />}></Route>
             <Route path='/register/' element={<RegisterPage />}></Route>
             <Route path='/login/' element={<LoginPage />}></Route>
+            <Route path='/accounts/' element={<AccountPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
