@@ -1,0 +1,33 @@
+.accounts-container li.nav-item {
+    background-color: #7f7d96;
+    border: #656475 1px solid !important;
+}
+
+.accounts-container .nav-tabs .nav-link {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.accounts-container {
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 5%;
+}
+
+.accounts-container .nav-link {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+li .nav-link.active {
+    width: 500%;
+    background-color: #403E56 !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: white;
+}
+
+.tab-container {
+    border: 1px solid black;
+}

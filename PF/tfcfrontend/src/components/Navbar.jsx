@@ -1,4 +1,4 @@
-import {React, useContext} from 'react'
+import {React, useContext, useState, useEffect} from 'react'
 import './Navbar.css'
 
 import AuthContext from '../api/AuthContext'
@@ -9,6 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { getAvatar } from '../api/requests';
 
 
 // Navbar from https://react-bootstrap.github.io/components/navbar/#offcanvas
@@ -18,6 +19,13 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 function Header() {
 
     let {token, logout} = useContext(AuthContext)
+
+    let [avatar, setAvatar] = useState()
+
+    useEffect(() => {
+        getAvatar(setAvatar, token)
+    }, [token])
+
 
     return (
         <>
@@ -37,13 +45,15 @@ function Header() {
                     </Form>
 
                     <Nav className="navbar-items flex-grow-1 pe-3">
-
+                        
                         <Nav.Link className="nav-item" href="#action1">Studios</Nav.Link>
                         <Nav.Link className="nav-item" href="#action2">Subscriptions</Nav.Link>
 
                         {token && 
-                            <NavDropdown className="account-dropdown" title="Account">
-                            <NavDropdown.Item href="#action3">Profile</NavDropdown.Item>
+                            <NavDropdown className="account-dropdown" title={
+                                <img src={avatar} className="avatar" alt="Avatar"></img>
+                            }>
+                            <NavDropdown.Item href="/accounts/">Profile</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">My classes</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Subscriptions</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Payments</NavDropdown.Item>
@@ -54,7 +64,9 @@ function Header() {
                         }
 
                         {! token &&
-                            <NavDropdown className="account-dropdown" title="Account">
+                            <NavDropdown className="account-dropdown" title={
+                                <img src={require("../images/default.png")} className="avatar" alt="Avatar"></img>
+                            }>
                             <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                             <NavDropdown.Item href="/register">Register</NavDropdown.Item>
                             </NavDropdown>

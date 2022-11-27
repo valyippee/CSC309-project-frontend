@@ -36,8 +36,6 @@ function RegisterPage() {
         <div className="register-container">
 
             <h2>Sign Up</h2>
-            
-            {error && error.email && <p className='error-message'>{error.email[0]}</p>}
 
             <form onSubmit={registerUser} className="text-center">
                 <div className="form-group row">
@@ -46,6 +44,8 @@ function RegisterPage() {
                     <input onChange={onChange} required={true} value={user.email} name="email" type="email" className="form-control form-control-lg" id="email"/>
                     </div>
                 </div>
+
+                {error && error.email && <p className='error-message'>{error.email[0]}</p>}
 
                 <div className="form-group row">
                     <label htmlFor="fname" className="col-sm-2 col-form-label col-form-label-md">First Name:</label>
@@ -68,14 +68,14 @@ function RegisterPage() {
                     </div>
                 </div>
 
-                {error && error.password && <p className='error-message'>{error.password[0]}</p>}
-
                 <div className="form-group row">
                     <label htmlFor="password" className="col-sm-2 col-form-label col-form-label-md">Password:</label>
                     <div className="col">
                     <input onChange={onChange} required={true} value={user.password} name="password" type="password" className="form-control form-control-lg" id="password"/>
                     </div>
                 </div>
+
+                {error && error.password && <p className='error-message'>{error.password[0]}</p>}
 
                 <div className="col-auto my-1">
                     <button type="submit" className="btn btn-lg btn-primary">Sign Up</button>
