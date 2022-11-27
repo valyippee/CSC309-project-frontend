@@ -51,8 +51,26 @@ export function getCard(setCard, token) {
             Authorization: 'Token ' + token
         },
     }).then((res) => {
-        if (res.data) {
+        if (res.data.length > 0) {
             setCard(res.data[0])
         }
     });
+}
+
+export function putCard(setCard, number, exp_month, exp_year, cvc, token) {
+    axios.patch(server_url + "api/accounts/profile/", {
+        number: number,
+        exp_month: exp_month,
+        exp_year: exp_year,
+        cvc: cvc,
+    },
+    {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    }).then((res) => {
+        if (res.data.length > 0) {
+            setCard(res.data[0])
+        }
+    })
 }
