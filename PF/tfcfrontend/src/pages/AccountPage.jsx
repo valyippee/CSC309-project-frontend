@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import CardInfoTab from '../components/cardinfo/CardInfoTab';
 import ProfileTab from '../components/profile/ProfileTab';
 import SubscriptionsTab from '../components/subscriptions/SubscriptionsTab';
 import Title from '../components/Title';
@@ -42,7 +43,7 @@ function AccountPage({match}) {
                 Tab 5
             </Tab>
             <Tab className="tab-container" eventKey="card" title="My Card">
-                Tab 10
+                <CardInfoTab/>
             </Tab>
             </Tabs>
         </div>

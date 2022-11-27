@@ -1,0 +1,28 @@
+.card-info-container {
+    padding: 3rem;
+}
+
+div.expiry {
+    display: table;
+}
+
+.month, .year, .expiry p {
+    display: table-cell;
+}
+
+.expiry p {
+    display: inline-block;
+}
+
+.month {
+    width: 3rem;
+}
+
+.year {
+    width: 6rem;
+}
+
+
+.card-h2 {
+    text-align: left;
+}
