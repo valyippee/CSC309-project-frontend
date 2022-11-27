@@ -1,0 +1,29 @@
+h3, p {
+    display: inline;
+    font-size: 1.5rem;
+}
+
+label {
+    font-weight: bold;
+}
+
+.profile-content {
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+
+.profile-container {
+    padding: 1rem;
+    text-align: center;
+}
+
+.avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.avatar-form {
+    justify-content: center;
+    text-align: center;
+}
