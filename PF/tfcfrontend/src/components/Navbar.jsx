@@ -37,8 +37,8 @@ function Header() {
                     <Nav.Link className="nav-item" href="#action2">Subscriptions</Nav.Link>
 
                     <NavDropdown className="account-dropdown" title="Account">
-                    <NavDropdown.Item href="#action3">Login</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">Register</NavDropdown.Item>
+                    <NavDropdown.Item href="/login">Login</NavDropdown.Item>
+                    <NavDropdown.Item href="/register">Register</NavDropdown.Item>
                     </NavDropdown>
 
                     {/* <NavDropdown className="account-dropdown" title="Account">
