@@ -48,7 +48,7 @@ function Profile(props) {
                     </div>
                 </div>
 
-                {!props.user.avatar && <img className="avatar" src="https://www.cs.toronto.edu/~kianoosh/courses/csc309/resources/images/tfc.png" alt="avatar"></img>}
+                {!props.user.avatar && <img className="avatar" src={require("../../images/default.png")} alt="avatar"></img>}
                 {props.user.avatar && <img className="avatar" src={props.user.avatar} alt="avatar"></img>}
 
                 <div className="form-group row">

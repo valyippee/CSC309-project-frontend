@@ -7,7 +7,10 @@
 
 .navbar {
     width: 100%;
-    margin-bottom: 0 !important;
+}
+
+a.nav-item.nav-link {
+    margin-top: 10px;
 }
 
 .search-bar {
@@ -16,4 +19,10 @@
 
 .navbar-items {
     justify-content: space-evenly;
+}
+
+.avatar {
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
 }

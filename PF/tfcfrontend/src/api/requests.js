@@ -29,3 +29,18 @@ export function patchProfile(setProfile, email, first_name, last_name, avatar, p
         setProfile(res.data)
     })
 }
+
+export function getAvatar(setAvatar, token) {
+    axios.get(server_url + "api/accounts/profile/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.data.avatar) {
+            setAvatar(res.data.avatar)
+        }
+        else {
+            setAvatar(require("../images/default.png"))
+        }
+    });
+}
