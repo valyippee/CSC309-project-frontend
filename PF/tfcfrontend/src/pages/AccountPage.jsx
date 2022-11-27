@@ -1,10 +1,13 @@
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+import Title from '../components/Title';
 import './AccountPage.css'
 
 function AccountPage() {
     
   return (
+    <>
+    <Title title="Account"/>
     <div className="accounts-container">
         <Tabs defaultActiveKey="profile" id="fill-tab" className="mb-3" fill>
         <Tab eventKey="profile" title="Profile">
@@ -24,6 +27,7 @@ function AccountPage() {
         </Tab>
         </Tabs>
     </div>
+    </>
   );
 }
 
