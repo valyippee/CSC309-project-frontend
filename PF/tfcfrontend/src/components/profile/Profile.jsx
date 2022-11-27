@@ -1,7 +1,11 @@
-import React from 'react'
+import {React, useContext, authContext} from 'react'
 import './Profile.css'
+import { patchProfile } from '../../api/requests'
+import AuthContext from '../../api/AuthContext'
 
 function Profile(props) {
+
+    let {token} = useContext(AuthContext)
 
     const onChange = (e) => {
         props.setUser((prevState) => ({
@@ -17,10 +21,26 @@ function Profile(props) {
         }))
     }
 
+    const editProfile = (e) => {
+        e.preventDefault()
+        
+        let user = props.user
+
+        // If they changed avatar, send the new avatar
+        if ('new_avatar' in props.user) {
+            patchProfile(props.setUser, user.email, user.first_name, user.last_name, user.new_avatar, user.phone_number, token)
+        }
+        else {
+            patchProfile(props.setUser, user.email, user.first_name, user.last_name, user.avatar, user.phone_number, token)
+        }
+
+
+    }
+
     return (
         <div className="profile-container">
                 
-            <form className="text-center">
+            <form onSubmit={editProfile} className="text-center">
                 <div className="avatar-form form-group row">
                     <label htmlFor="avatar" className="avatar-upload">Change Avatar: </label>
                     <div className="col-2">
