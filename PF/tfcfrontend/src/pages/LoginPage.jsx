@@ -35,14 +35,14 @@ function LoginPage() {
                 <div className="form-group row">
                     <label htmlFor="email" className="col-sm-2 col-form-label col-form-label-md">Email Address:</label>
                     <div className="col">
-                    <input onChange={onChange} value={user.email} name="email" type="email" className="form-control form-control-lg" id="email"/>
+                    <input onChange={onChange} value={user.email} name="email" required={true} type="email" className="form-control form-control-lg" id="email"/>
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label htmlFor="password" className="col-sm-2 col-form-label col-form-label-md">Password:</label>
                     <div className="col">
-                    <input onChange={onChange} value={user.password} name="password" type="password" className="form-control form-control-lg" id="password"/>
+                    <input onChange={onChange} required={true} value={user.password} name="password" type="password" className="form-control form-control-lg" id="password"/>
                     </div>
                 </div>
 
