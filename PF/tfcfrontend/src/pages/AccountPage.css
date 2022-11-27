@@ -26,3 +26,7 @@ li.nav-item {
 .nav-tabs .nav-link.active {
     color: white;
 }
+
+.tab-container {
+    border: 1px solid black;
+}

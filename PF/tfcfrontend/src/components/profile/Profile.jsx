@@ -1,7 +1,8 @@
 import React from 'react'
 import './Profile.css'
 
-function Profile() {
+function Profile(props) {
+
   return (
     <div className="profile-container">
 
@@ -13,33 +14,34 @@ function Profile() {
                 </div>
             </div>
 
-            <img className="avatar" src="https://www.cs.toronto.edu/~kianoosh/courses/csc309/resources/images/tfc.png" alt="avatar"></img>
+            {!props.user.avatar && <img className="avatar" src="https://www.cs.toronto.edu/~kianoosh/courses/csc309/resources/images/tfc.png" alt="avatar"></img>}
+            {props.user.avatar && <img className="avatar" src={props.user.avatar} alt="avatar"></img>}
 
             <div className="form-group row">
                 <label htmlFor="email" className="col-sm-2 col-form-label col-form-label-md">Email Address:</label>
                 <div className="col">
-                <input required={true} name="email" type="email" className="form-control form-control-lg" id="email"/>
+                <input required={true} value={props.user.email} name="email" type="email" className="form-control form-control-lg" id="email"/>
                 </div>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="fname" className="col-sm-2 col-form-label col-form-label-md">First Name:</label>
                 <div className="col">
-                <input required={true} name="fname" type="text" className="form-control form-control-lg" id="fname"/>
+                <input required={true} value={props.user.first_name} name="fname" type="text" className="form-control form-control-lg" id="fname"/>
                 </div>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="lname" className="col-sm-2 col-form-label col-form-label-md">Last Name:</label>
                 <div className="col">
-                <input required={true} name="lname" type="text" className="form-control form-control-lg" id="lname"/>
+                <input required={true} value={props.user.last_name} name="lname" type="text" className="form-control form-control-lg" id="lname"/>
                 </div>
             </div>
 
             <div className="form-group row">
                 <label htmlFor="phone" className="col-sm-2 col-form-label col-form-label-md">Phone Number:</label>
                 <div className="col">
-                <input name="phone" type="number" className="form-control form-control-lg" id="phone"/>
+                <input name="phone" value={props.user.phone_number} type="number" className="form-control form-control-lg" id="phone"/>
                 </div>
             </div>
 
