@@ -1,20 +1,14 @@
-.my-classes-container li.nav-item {
+/* li.nav-item {
     background-color: #7f7d96;
     border: #656475 1px solid !important;
 }
 
-.my-classes-container .nav-tabs .nav-link {
+.nav-tabs .nav-link {
     color: white;
     font-size: 1.5rem;
 }
 
-.my-classes-container {
-    width: fit-content;
-    margin: auto;
-    margin-bottom: 5%;
-}
-
-.my-classes-container .nav-link {
+.nav-link {
     padding-left: 5rem;
     padding-right: 5rem;
 }
@@ -30,4 +24,20 @@ li .nav-link.active {
 
 .tab-container {
     border: 1px solid black;
+} */
+
+.my-classes-container {
+    width: fit-content;
+    margin: auto;
+    margin-bottom: 5%;
+    height: '500pt';
+}
+
+.rbc-calendar {
+    width: 500%;
+    margin: auto;
+}
+
+.rbc-event {
+    height: 2.5em;    
 }
