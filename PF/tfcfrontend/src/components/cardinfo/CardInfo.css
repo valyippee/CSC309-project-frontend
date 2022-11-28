@@ -17,3 +17,7 @@ div.expiry {
 .card-h2 {
     text-align: left;
 }
+
+.card-success {
+    color: green;
+}

@@ -9,6 +9,8 @@ function CardInfo(props) {
 
     let [cvc, setCVC] = useState('')
 
+    let [success, setSuccess] = useState(false)
+
     let {token} = useContext(AuthContext)
 
     const onChange = (e) => {
@@ -29,7 +31,7 @@ function CardInfo(props) {
     const onSubmit = (e) => {
         e.preventDefault()
 
-        putCard(cardNum, props.card.exp_month, props.card.exp_year, cvc, token)
+        putCard(setSuccess, cardNum, props.card.exp_month, props.card.exp_year, cvc, token)
 
     }
 
@@ -37,6 +39,9 @@ function CardInfo(props) {
         <div className="card-info-container">
             {props.card.last4 && <h2 className="card-h2">Current Card: </h2>}
             {!props.card.last4 && <h2 className="card-h2">Add payment information: </h2>}
+
+            {success && <p className="card-success">Successfully added card information</p>}
+
             <form onSubmit={onSubmit} className="text-center">
                     <div className="form-group row">
                         <label htmlFor="card_number" className="col-sm-2 col-form-label col-form-label-md">Card Number: </label>
