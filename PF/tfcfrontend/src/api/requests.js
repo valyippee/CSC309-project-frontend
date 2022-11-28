@@ -85,3 +85,27 @@ export function getSubscriptions(setSubscriptions) {
         setSubscriptions(res.data.results)
     });
 }
+
+export function getFuturePayments(setPayments, token) {
+    axios.get(server_url + "api/accounts/paymenthistory/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status == 200) {
+            setPayments(res.data.data.future)
+        }
+    });
+}
+
+export function getPaymentHistory(setPayments, token) {
+    axios.get(server_url + "api/accounts/paymenthistory/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status == 200) {
+            setPayments(res.data.data.history)
+        }
+    });
+}

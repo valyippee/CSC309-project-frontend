@@ -3,6 +3,8 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import { useNavigate, useParams } from 'react-router-dom';
 import CardInfoTab from '../components/cardinfo/CardInfoTab';
+import PaymentHistory from '../components/payments/PaymentHistory';
+import UpcomingPayments from '../components/payments/UpcomingPayments';
 import ProfileTab from '../components/profile/ProfileTab';
 import SubscriptionsTab from '../components/subscriptions/SubscriptionsTab';
 import Title from '../components/Title';
@@ -37,10 +39,10 @@ function AccountPage({match}) {
                 <SubscriptionsTab/>
             </Tab>
             <Tab className="tab-container" eventKey="upcomingPayments" title="Upcoming Payments">
-                Tab 3
+                <UpcomingPayments/>
             </Tab>
             <Tab className="tab-container" eventKey="paymentHistory" title="Payment History">
-                Tab 5
+                <PaymentHistory/>
             </Tab>
             <Tab className="tab-container" eventKey="card" title="My Card">
                 <CardInfoTab/>
