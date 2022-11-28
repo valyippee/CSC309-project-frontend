@@ -54,7 +54,7 @@ function Header() {
                                 <img src={avatar} className="avatar" alt="Avatar"></img>
                             }>
                             <NavDropdown.Item href="/accounts/">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">My classes</NavDropdown.Item>
+                            <NavDropdown.Item href="/myclasses/">My classes</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Subscriptions</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">Manage Payments</NavDropdown.Item>
                             <NavDropdown.Item href="#action4">My Card</NavDropdown.Item>
