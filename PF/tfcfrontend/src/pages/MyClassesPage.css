@@ -1,5 +1,33 @@
+.my-classes-container li.nav-item {
+    background-color: #7f7d96;
+    border: #656475 1px solid !important;
+}
+
+.my-classes-container .nav-tabs .nav-link {
+    color: white;
+    font-size: 1.5rem;
+}
+
 .my-classes-container {
     width: fit-content;
     margin: auto;
     margin-bottom: 5%;
+}
+
+.my-classes-container .nav-link {
+    padding-left: 5rem;
+    padding-right: 5rem;
+}
+
+li .nav-link.active {
+    width: 500%;
+    background-color: #403E56 !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: white;
+}
+
+.tab-container {
+    border: 1px solid black;
 }

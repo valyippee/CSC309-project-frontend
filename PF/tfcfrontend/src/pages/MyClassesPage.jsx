@@ -1,41 +1,105 @@
+import React from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import React, { useMemo } from 'react'
-import {
-    Calendar,
-    Views,
-    DateLocalizer,
-    momentLocalizer,
-} from 'react-big-calendar'
-import moment from 'moment';
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import moment from "moment";
 import Title from '../components/Title';
 import './MyClassesPage.css';
-import events from './events.js';
-import * as dates from './dates.js';
-
+import './AccountPage.css';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 function MyClassesPage() {
 
   const localizer = momentLocalizer(moment);
 
-  const ColoredDateCellWrapper = ({ children }) =>
-  React.cloneElement(React.Children.only(children), {
-    style: {
-      backgroundColor: 'lightblue',
-    },
-  })
+  // const [selected, setSelected] = useState();
 
-  const { components, defaultDate, max, views } = useMemo(
-    () => ({
-      components: {
-        timeSlotWrapper: ColoredDateCellWrapper,
+  const events = [
+      {
+        title: 'Phone Interview',
+        start: new Date(2022, 10, 27, 17, 0, 0),
+        end: new Date(2022, 10, 27, 18, 30, 0),
       },
-      defaultDate: new Date(2015, 3, 1),
-      max: dates.add(dates.endOf(new Date(2015, 27, 11), 'day'), -1, 'hours'),
-      views: Object.keys(Views).map((k) => Views[k]),
-    }),
-    []
-  )
+      {
+        title: 'Cooking Class',
+        start: new Date(2022, 10, 27, 17, 30, 0),
+        end: new Date(2022, 10, 27, 19, 0, 0),
+      },
+      {
+        title: 'Go to the gym',
+        start: new Date(2022, 10, 28, 18, 30, 0),
+        end: new Date(2022, 10, 28, 20, 0, 0),
+      },
+    ];
+  
+  const handleSelected = (event) => {
+    // setSelected(event);
+    console.log("selected: " + event.title);
+  }
+
+  const eventStyleGetter = (event) => { 
+    console.log("in event style getter ")
+    var style = { 
+      backgroundColor: '#656475',
+    }; 
+    return { style: style }; 
+  }; 
+
+  const handleEnablePopover = (event) => {
+    return (
+      <div>
+        <Row>
+          <Col lg={12} xs={24}>
+            <span>abc: <p>{event.abc}</p></span>
+          </Col>
+          <Col lg={12} xs={24}>
+            <span>xyz: <p>{event.xyz}</p></span>
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
+  const eventWrapper = (props) => {
+    // Some data that you might have inserted into the event object
+    const data = props.event;
+    console.log(data);
+    // const customDiv = (
+    //   <>
+    //     <OverlayTrigger
+    //       trigger="click"
+    //       key="top"
+    //       placement="top"
+    //       overlay={
+    //         <Popover>
+    //           <Popover.Header as="h3">Popover Top</Popover.Header>
+    //           <Popover.Body>
+    //             Holy!
+    //           </Popover.Body>
+    //         </Popover>
+
+    //       }
+    //     />
+    //   </>
+    // );
+    const customDiv = (
+      <div className="yourClass">
+        <span>{data.title}</span>
+        <span>field 2</span>
+      </div>
+    );
+    const eventDiv = React.cloneElement(props.children.props.children, {}, customDiv);
+    const wrapper = React.cloneElement(props.children, {}, eventDiv);
+    return (<div>
+      {wrapper}
+    </div>
+    );
+    // return (
+    //   {customDiv}
+    // )
+  }
     
   return (
     <>
@@ -43,15 +107,47 @@ function MyClassesPage() {
     <div className="my-classes-container">
         <Tabs defaultActiveKey="upcomingClasses" id="fill-tab" fill>
             <Tab className="tab-container" eventKey="upcomingClasses" title="My Upcoming Classes">
-                <Calendar
-                    components={components}
-                    defaultDate={defaultDate}
-                    events={events}
-                    localizer={localizer}
-                    max={max}
-                    showMultiDayTimes
-                    step={60}
-                    views={views}
+              <Calendar
+                // selected={selected}
+                onSelectEvent={handleSelected}
+                eventPropGetter={eventStyleGetter}
+                localizer={localizer}
+                defaultView="month"
+                views={['week', 'month']}
+                events={events}
+                style={{ height: "60em" }}
+                components={{ eventWrapper: eventWrapper }}
+                  // {
+                  //   eventWrapper: eventWrapper
+                    // ({ event, children }) => (
+                    //   <div
+                    //     onMouseOver={
+                    //       e => {
+                    //         e.preventDefault();
+                    //       }
+                    //     }
+                    //   >
+                        // {/* <Popover placement="top" content={handleEnablePopover(event)} title="xyz"> */}
+                        //   {/* {children} */}
+                        //   {/* hello */}
+                        // {/* </Popover> */}
+                        // {/* <OverlayTrigger
+                        //   trigger="click"
+                        //   key="top"
+                        //   placement="top"
+                        //   overlay={
+                        //     <Popover id={`popover-positioned-top`}>
+                        //       <Popover.Header as="h3">{`Popover top`}</Popover.Header>
+                        //       <Popover.Body>
+                        //         <strong>Holy guacamole!</strong> Check this info.
+                        //       </Popover.Body>
+                        //     </Popover>
+                        //   }
+                        // /> */}
+                    //   </div>
+                    // )
+                //   }
+                // }
                 />
             </Tab>
             <Tab className="tab-container" eventKey="pastClasses" title="My Past Classes">
