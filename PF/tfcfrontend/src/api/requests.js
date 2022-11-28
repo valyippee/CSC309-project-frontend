@@ -74,3 +74,10 @@ export function putCard(setCard, number, exp_month, exp_year, cvc, token) {
         }
     })
 }
+
+export function getSubscriptions(setSubscriptions) {
+    axios.get(server_url + "api/subscriptions/")
+    .then((res) => {
+        setSubscriptions(res.data.results)
+    });
+}
