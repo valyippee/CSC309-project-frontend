@@ -57,7 +57,7 @@ export function getCard(setCard, token) {
     });
 }
 
-export function putCard(setSuccess, number, exp_month, exp_year, cvc, token) {
+export function putCard(setSuccess, setError, number, exp_month, exp_year, cvc, token) {
     axios.put(server_url + "api/accounts/cardinfo/", {
         number: number,
         exp_month: exp_month,
@@ -71,8 +71,10 @@ export function putCard(setSuccess, number, exp_month, exp_year, cvc, token) {
     }).then((res) => {
         if (res.status === 204) {
             setSuccess(true)
+            setError(false)
         } 
     }).catch((err) => {
+        setError(true)
         setSuccess(false)
     })
 }

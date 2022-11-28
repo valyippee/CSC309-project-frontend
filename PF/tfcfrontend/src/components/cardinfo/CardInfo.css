@@ -21,3 +21,7 @@ div.expiry {
 .card-success {
     color: green;
 }
+
+.card-error {
+    color: red;
+}
