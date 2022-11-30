@@ -45,6 +45,9 @@ function MyClassesPage() {
 
   const localizer = momentLocalizer(moment);
 
+  const [history, setHistory] = useState([])
+  const [schedule, setSchedule] = useState([])
+
   // this are just testing data
   const [events, setEvents] = useState(
     [
