@@ -18,7 +18,7 @@
     font-size: 1.5rem;
 }
 
-#event-description {
+#event-description, #drop-instance, #drop-class {
     font-size: 1rem;
 }
 
@@ -29,9 +29,4 @@
 
 #drop-class {
     margin-left: 2em;
-    font-size: 1rem;
-}
-
-#drop-instance {
-    font-size: 1rem;
 }
