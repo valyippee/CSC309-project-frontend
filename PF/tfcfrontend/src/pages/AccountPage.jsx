@@ -2,7 +2,7 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import ProfileTab from '../components/profile/ProfileTab';
 import Title from '../components/Title';
-import './AccountPage.css'
+import './AccountPage.css';
 
 function AccountPage() {
     

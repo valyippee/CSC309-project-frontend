@@ -1,0 +1,32 @@
+.my-classes-container {
+    width: 90%;
+    margin: auto;
+    margin-bottom: 5%;
+    height: '500pt';
+}
+
+.rbc-event {
+    height: 2.5em;    
+}
+
+.popover {
+    max-width: 90%;
+    padding: 3em;
+}
+
+#event-title {
+    font-size: 1.5rem;
+}
+
+#event-description, #drop-instance, #drop-class {
+    font-size: 1rem;
+}
+
+#drop-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#drop-class {
+    margin-left: 2em;
+}
