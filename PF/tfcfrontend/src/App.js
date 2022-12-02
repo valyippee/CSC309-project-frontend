@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './api/AuthContext'
 import AccountPage from './pages/AccountPage';
+import MyClassesPage from './pages/MyClassesPage';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path='/register/' element={<RegisterPage />}></Route>
             <Route path='/login/' element={<LoginPage />}></Route>
             <Route path='/accounts/:tab' element={<AccountPage/>}></Route>
+            <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

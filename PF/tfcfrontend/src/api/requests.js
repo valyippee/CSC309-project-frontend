@@ -109,3 +109,28 @@ export function getPaymentHistory(setPayments, token) {
         }
     });
 }
+
+export function getUserClassHistory(setHistory, token) {
+    axios.get(server_url + "api/studios/classes/history/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        setHistory(res.data);
+    });
+}
+
+export function getUserClassSchedule(setSchedule, startDate, weeks, token) {
+    axios.get(server_url + "api/studios/classes/schedule/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        params: {
+            start_date: startDate,
+            weeks: weeks
+        }
+    }).then((res) => {
+        console.log(res)
+        setSchedule(res.data);
+    });
+}

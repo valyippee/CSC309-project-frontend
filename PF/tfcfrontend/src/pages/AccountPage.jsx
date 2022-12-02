@@ -8,7 +8,7 @@ import UpcomingPayments from '../components/payments/UpcomingPayments';
 import ProfileTab from '../components/profile/ProfileTab';
 import SubscriptionsTab from '../components/subscriptions/SubscriptionsTab';
 import Title from '../components/Title';
-import './AccountPage.css'
+import './AccountPage.css';
 
 function AccountPage({match}) {
     

@@ -52,9 +52,8 @@ function Header() {
                         {token && 
                             <NavDropdown className="account-dropdown" title={
                                 <img src={avatar} className="avatar" alt="Avatar"></img>
-                            }>
                             <NavDropdown.Item href="/accounts/profile">Profile</NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">My classes</NavDropdown.Item>
+                            <NavDropdown.Item href="/myclasses/">My classes</NavDropdown.Item>
                             <NavDropdown.Item href="/accounts/subscriptions">Manage Subscriptions</NavDropdown.Item>
                             <NavDropdown.Item href="/accounts/upcomingPayments">Manage Payments</NavDropdown.Item>
                             <NavDropdown.Item href="/accounts/card">My Card</NavDropdown.Item>
