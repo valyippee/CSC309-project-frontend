@@ -65,7 +65,6 @@ export function getUserClassSchedule(setSchedule, startDate, weeks, token) {
             weeks: weeks
         }
     }).then((res) => {
-        console.log(res)
         setSchedule(res.data);
     });
 }
@@ -73,9 +72,10 @@ export function getUserClassSchedule(setSchedule, startDate, weeks, token) {
 
 // STUDIOS
 export function getListOfStudios(setStudios, params) {
-    axios.get(server_url + "api/studios/list/0,0/")
+    const locationPathString = params.location.lng + "," + params.location.lat + "/"
+
+    axios.get(server_url + "api/studios/list/" + locationPathString )
     .then((res) => {
-        console.log(res.data.results)
         setStudios(res.data.results)
     })
 }

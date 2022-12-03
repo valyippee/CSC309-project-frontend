@@ -1,5 +1,4 @@
 import {React, useState, useEffect} from 'react'
-import {useLoadScript} from "@react-google-maps/api"
 import "./HomePage.css"
 import Title from '../components/Title';
 import Map from "../components/Map"
@@ -9,11 +8,22 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 function Home() {
+  const [currentLocation, setCurrentLocation] = useState({lat: 43.65, lng: -79.38}) // DEFAULT COORDS is TORONTO
   const [studios, setStudios] = useState([])
   
   useEffect(() => {
-    getListOfStudios(setStudios)
+    getListOfStudios(setStudios, {location: currentLocation})
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setCurrentLocation({lat: position.coords.latitude, lng: position.coords.longitude}) // USERS CURRENT LOCATION COORDS
+      })
+    }
   }, [])
+
+  useEffect(() => {
+    getListOfStudios(setStudios, {location: currentLocation})
+  }, [currentLocation])
 
   return (
     <>
@@ -29,7 +39,7 @@ function Home() {
           </Row>
         </div>
         <div className="map-filterbar-container">
-          <Map studios={studios}/>
+          <Map studios={studios} currentLocation={currentLocation}/>
         </div>
       </div>
     </>
