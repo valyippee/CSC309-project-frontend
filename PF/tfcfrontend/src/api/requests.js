@@ -128,7 +128,9 @@ export function getPaymentHistory(setPayments, token) {
         description: _class.description,
         location: _class.studio_name,
         coach: _class.coach,
-        enrollEnabled: enrollEnabled
+        enrollEnabled: enrollEnabled,
+        classId: _class.studio_class,
+        classCancelled: _class.status == 2
     }
 }
 
@@ -144,6 +146,7 @@ function getUserClassSchedule(setSchedule, weeks, startDate, token) {
     }).then((res) => {
         const events = res.data.map(_class => createEventData(_class, false));
         setSchedule(events);
+        console.log(res)
     }).catch((error) => {
         console.log(error)
     });
@@ -174,4 +177,37 @@ export function getUserClasses(
     } else {
         getUserClassSchedule(setSchedule, weeks, startSchedule, token);
     }
+}
+
+export function dropUserClass(classId, token) {
+    console.log(token)
+    axios({
+        method: 'patch',
+        url: server_url + `api/studios/classes/${classId}/drop/`,
+        headers: {
+            Authorization: 'Token ' + token
+        }
+    }).then((res) => {
+        console.log(res);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+export function dropUserClassInstance(classId, date, token) {
+    console.log(token)
+    axios({
+        method: 'post',
+        url: server_url + `api/studios/classes/${classId}/drop/`,
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        data: {
+            date: date
+        }
+    }).then((res) => {
+        console.log(res);
+    }).catch((error) => {
+        console.log(error.request._header);
+    });
 }

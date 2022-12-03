@@ -1,3 +1,6 @@
+import { dropUserClass, dropUserClassInstance } from '../../api/requests';
+import AuthContext from '../../api/AuthContext';
+import { useState, useContext } from 'react';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import './ClassEvent.css';
@@ -8,7 +11,17 @@ export const dateToString = (date) => {
       ('0'+ date.getDate()).slice(-2);
 }
 
+const dropClass = (classId, token) => {
+  dropUserClass(classId, token);
+}
+
+const dropClassInstance = (classId, date, token) => {
+  dropUserClassInstance(classId, date, token);
+}
+
 export const Event = ({event}) => {
+    let {token} = useContext(AuthContext);
+
     let popover = (
       <Popover id="event-popover">
         <strong id="event-title">{event.title}</strong>
@@ -22,8 +35,18 @@ export const Event = ({event}) => {
         </span>
         {event.end > new Date() && !event.enrollEnabled &&
           <div id='drop-buttons'>
-            <button className="btn btn-lg btn-primary" id="drop-instance">Drop this class instance</button>
-            <button className="btn btn-lg btn-primary" id="drop-class">Drop this recurring class</button>
+            <button 
+              className="btn btn-lg btn-primary"
+              id="drop-instance" 
+              onClick={() => dropClassInstance(event.classId, dateToString(event.start), token, event.forceUpdate)}>
+              Drop this class instance
+            </button>
+            <button 
+              className="btn btn-lg btn-primary"
+              id="drop-class"
+              onClick={() => dropClass(event.classId, token, event.forceUpdate)}>
+              Drop this recurring class
+            </button>
           </div>
         }
         {event.enrollEnabled &&
