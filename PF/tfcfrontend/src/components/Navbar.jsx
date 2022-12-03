@@ -53,11 +53,11 @@ function Header() {
                             <NavDropdown className="account-dropdown" title={
                                 <img src={avatar} className="avatar" alt="Avatar"></img>
                             }>
-                            <NavDropdown.Item href="/accounts/">Profile</NavDropdown.Item>
+                            <NavDropdown.Item href="/accounts/profile">Profile</NavDropdown.Item>
                             <NavDropdown.Item href="/myclasses/">My classes</NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">Manage Subscriptions</NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">Manage Payments</NavDropdown.Item>
-                            <NavDropdown.Item href="#action4">My Card</NavDropdown.Item>
+                            <NavDropdown.Item href="/accounts/subscriptions">Manage Subscriptions</NavDropdown.Item>
+                            <NavDropdown.Item href="/accounts/upcomingPayments">Manage Payments</NavDropdown.Item>
+                            <NavDropdown.Item href="/accounts/card">My Card</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                             </NavDropdown>
