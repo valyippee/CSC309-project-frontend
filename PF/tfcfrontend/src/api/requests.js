@@ -45,27 +45,62 @@ export function getAvatar(setAvatar, token) {
     });
 }
 
-export function getUserClassHistory(setHistory, token) {
-    axios.get(server_url + "api/studios/classes/history/", {
-        headers: {
-            Authorization: 'Token ' + token
-        },
-    }).then((res) => {
-        setHistory(res.data);
-    });
+function createEventData(_class) {
+    const year = _class.date.split("-")[0];
+    const month = _class.date.split("-")[1];
+    const day = _class.date.split("-")[2];
+
+    return {
+        title: _class.class_name,
+        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
+        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2]),
+        description: _class.description,
+        location: _class.studio_name,
+        coach: _class.coach
+    }
 }
 
-export function getUserClassSchedule(setSchedule, startDate, weeks, token) {
-    axios.get(server_url + "api/studios/classes/schedule/", {
+export async function getUserClassHistory(setHistory, weeks, startDate, token) {
+    await axios.get(server_url + "api/studios/classes/history/", {
         headers: {
             Authorization: 'Token ' + token
         },
         params: {
-            start_date: startDate,
-            weeks: weeks
+            weeks: weeks,
+            start_date: startDate
         }
     }).then((res) => {
+        console.log("history success")
+        console.log(startDate)
         console.log(res)
-        setSchedule(res.data);
+        const events = res.data.map(_class => createEventData(_class));
+        setHistory(events);
+    }).catch((error) => {
+        console.log("history failed")
+        console.log(startDate)
+        console.log(error)
+    });
+}
+
+export async function getUserClassSchedule(setSchedule, weeks, startDate, token) {
+    await axios.get(server_url + "api/studios/classes/schedule/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        params: {
+            weeks: weeks,
+            start_date: startDate
+        }
+    }).then((res) => {
+        console.log("schedule success")
+        console.log(startDate)
+        console.log(res)
+        const events = res.data.map(_class => createEventData(_class));
+        // console.log(events)
+        setSchedule(events);
+    }).catch((error) => {
+        console.log("schedule failed")
+        console.log(startDate)
+        console.log(error)
     });
 }
