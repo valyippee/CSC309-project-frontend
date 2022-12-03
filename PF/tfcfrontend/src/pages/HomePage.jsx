@@ -1,6 +1,8 @@
 import {React, useState, useEffect} from 'react'
+import {useLoadScript} from "@react-google-maps/api"
 import "./HomePage.css"
 import Title from '../components/Title';
+import Map from "../components/Map"
 import { getListOfStudios } from '../api/requests'
 import { StudioCard } from '../components/studios/StudioCard';
 import Col from 'react-bootstrap/Col';
@@ -12,7 +14,6 @@ function Home() {
   useEffect(() => {
     getListOfStudios(setStudios)
   }, [])
-
 
   return (
     <>
@@ -28,7 +29,7 @@ function Home() {
           </Row>
         </div>
         <div className="map-filterbar-container">
-
+          <Map studios={studios}/>
         </div>
       </div>
     </>

@@ -1,7 +1,8 @@
 .homepage-body-container {
     width: 100%;
     margin: 0;
-    flex-wrap: wrap-reverse;
+    display: flex;
+    height: 70vh;
 }
 
 .studio-cards-container {
@@ -11,4 +12,28 @@
     flex-wrap: wrap;
     justify-content: space-evenly;
     padding: 1em;
+    height: 100%;
+    overflow: scroll
+}
+
+.map-filterbar-container {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1em;
+  height: 100%;
+  overflow: scroll
+}
+
+.studio-cards-container, .map-filterbar-container {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.studio-cards-container::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+.map-filterbar-container::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
