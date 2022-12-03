@@ -45,13 +45,78 @@ export function getAvatar(setAvatar, token) {
     });
 }
 
+export function getCard(setCard, token) {
+    axios.get(server_url + "api/accounts/cardinfo/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.data.length > 0) {
+            setCard(res.data[0])
+        }
+    });
+}
+
+export function putCard(setSuccess, setError, number, exp_month, exp_year, cvc, token) {
+    axios.put(server_url + "api/accounts/cardinfo/", {
+        number: number,
+        exp_month: exp_month,
+        exp_year: exp_year,
+        cvc: cvc,
+    },
+    {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    }).then((res) => {
+        if (res.status === 204) {
+            setSuccess(true)
+            setError(false)
+        } 
+    }).catch((err) => {
+        setError(true)
+        setSuccess(false)
+    })
+}
+
+export function getSubscriptions(setSubscriptions) {
+    axios.get(server_url + "api/subscriptions/")
+    .then((res) => {
+        setSubscriptions(res.data.results)
+    });
+}
+
+export function getFuturePayments(setPayments, token) {
+    axios.get(server_url + "api/accounts/paymenthistory/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status == 200) {
+            setPayments(res.data.data.future)
+        }
+    });
+}
+
+export function getPaymentHistory(setPayments, token) {
+    axios.get(server_url + "api/accounts/paymenthistory/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status == 200) {
+            setPayments(res.data.data.history)
+        }
+    });
+}
+
 /**
  * 
  * @param {class details} _class 
  * @param {whether the enroll options should be shown} enrollEnabled 
  * @returns 
  */
-function createEventData(_class, enrollEnabled) {
+ function createEventData(_class, enrollEnabled) {
     const year = _class.date.split("-")[0];
     const month = _class.date.split("-")[1];
     const day = _class.date.split("-")[2];

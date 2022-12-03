@@ -1,0 +1,27 @@
+.card-info-container {
+    padding: 3rem;
+}
+
+div.expiry {
+    display: table;
+}
+
+.month, .year, .expiry p {
+    display: table-cell;
+}
+
+.expiry p {
+    display: inline-block;
+}
+
+.card-h2 {
+    text-align: left;
+}
+
+.card-success {
+    color: green;
+}
+
+.card-error {
+    color: red;
+}
