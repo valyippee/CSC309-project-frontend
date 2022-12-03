@@ -110,27 +110,104 @@ export function getPaymentHistory(setPayments, token) {
     });
 }
 
-export function getUserClassHistory(setHistory, token) {
-    axios.get(server_url + "api/studios/classes/history/", {
-        headers: {
-            Authorization: 'Token ' + token
-        },
-    }).then((res) => {
-        setHistory(res.data);
-    });
+/**
+ * 
+ * @param {class details} _class 
+ * @param {whether the enroll options should be shown} enrollEnabled 
+ * @returns 
+ */
+ function createEventData(_class, enrollEnabled) {
+    const year = _class.date.split("-")[0];
+    const month = _class.date.split("-")[1];
+    const day = _class.date.split("-")[2];
+
+    return {
+        title: _class.class_name,
+        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
+        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2]),
+        description: _class.description,
+        location: _class.studio_name,
+        coach: _class.coach,
+        enrollEnabled: enrollEnabled,
+        classId: _class.studio_class,
+        classCancelled: _class.status == 2
+    }
 }
 
-export function getUserClassSchedule(setSchedule, startDate, weeks, token) {
+function getUserClassSchedule(setSchedule, weeks, startDate, token) {
     axios.get(server_url + "api/studios/classes/schedule/", {
         headers: {
             Authorization: 'Token ' + token
         },
         params: {
-            start_date: startDate,
-            weeks: weeks
+            weeks: weeks,
+            start_date: startDate
         }
     }).then((res) => {
+        const events = res.data.map(_class => createEventData(_class, false));
+        setSchedule(events);
         console.log(res)
-        setSchedule(res.data);
+    }).catch((error) => {
+        console.log(error)
+    });
+}
+
+export function getUserClasses(
+    setHistory, setSchedule, weeks, startHistory, startSchedule, getHistory, getSchedule, token
+) {
+    if (getHistory) {
+        axios.get(server_url + "api/studios/classes/history/", {
+            headers: {
+                Authorization: 'Token ' + token
+            },
+            params: {
+                weeks: weeks,
+                start_date: startHistory
+            }
+        }).then((res) => {
+            const events = res.data.map(_class => createEventData(_class, false));
+            setHistory(events);
+
+            if (getSchedule) {
+                getUserClassSchedule(setSchedule, weeks, startSchedule, token);
+            }
+        }).catch((error) => {
+            console.log(error)
+        });
+    } else {
+        getUserClassSchedule(setSchedule, weeks, startSchedule, token);
+    }
+}
+
+export function dropUserClass(classId, token) {
+    console.log(token)
+    axios({
+        method: 'patch',
+        url: server_url + `api/studios/classes/${classId}/drop/`,
+        headers: {
+            Authorization: 'Token ' + token
+        }
+    }).then((res) => {
+        console.log(res);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+export function dropUserClassInstance(classId, date, token) {
+    console.log(token)
+    axios({
+        method: 'post',
+        url: server_url + `api/studios/classes/${classId}/drop/`,
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        data: {
+            date: date
+        }
+    }).then((res) => {
+        console.log(res);
+    }).catch((error) => {
+        console.log(error.request._header);
     });
 }

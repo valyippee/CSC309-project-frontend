@@ -1,104 +1,47 @@
-import { useState } from 'react'
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import AuthContext from '../api/AuthContext';
+import { getUserClasses } from '../api/requests';
+import { useState, useContext, useEffect } from 'react';
 import moment from "moment";
 import Title from '../components/Title';
+import ClassCalendar from '../components/calendar/ClassCalendar';
+import { dateToString } from '../components/calendar/ClassEvent';
 import './MyClassesPage.css';
-import './AccountPage.css';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function Event({ event }) {
-  let popover = (
-    <Popover id="event-popover">
-      <strong id="event-title">{event.title}</strong>
-      <br/>
-      <span id='event-description'>
-        {event.description}<br/><br/>
-        <strong>Location: </strong>{event.location}<br/>
-        <strong>Coach: </strong> {event.coach}<br/>
-        <strong>Time: </strong> {event.start.toLocaleTimeString()} - {event.end.toLocaleTimeString()}
-      </span>
-      {event.end > new Date() && 
-        <div id='drop-buttons'>
-          <button className="btn btn-lg btn-primary" id="drop-instance">Drop this instance</button>
-          <button className="btn btn-lg btn-primary" id="drop-class">Drop this recurring class</button>
-        </div>
-      }
-    </Popover>
-  );
-
-  console.log(event);
-  return (
-    <div>
-      <div>
-        <OverlayTrigger id="class-info" trigger="click" rootClose container={this} placement="auto-end" overlay={popover}>
-          <div>{event.title}</div>
-        </OverlayTrigger>
-      </div>
-    </div>
-  );
-}
 
 function MyClassesPage() {
+  let {token} = useContext(AuthContext);
 
-  const localizer = momentLocalizer(moment);
+  const [history, setHistory] = useState([]);
+  const [schedule, setSchedule] = useState([]);
 
-  const [history, setHistory] = useState([])
-  const [schedule, setSchedule] = useState([])
+  useEffect(() => {
+    const startDate = new Date()
+    startDate.setDate(1);  // first day of the month
+    getClassData(startDate, 'month');
+  }, []);
 
-  // this are just testing data
-  const [events, setEvents] = useState(
-    [
-      {
-        title: 'Phone Interview',
-        start: new Date(2022, 10, 27, 17, 0, 0),
-        end: new Date(2022, 10, 27, 18, 30, 0),
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        location: "Studio 1",
-        coach: "Mary"
-      },
-      {
-        title: 'Cooking Class',
-        start: new Date(2022, 10, 27, 17, 30, 0),
-        end: new Date(2022, 10, 27, 19, 0, 0),
-        description: "cooking your favourite dish",
-        location: "Studio 2",
-        coach: "Mary"
-      },
-      {
-        title: 'Go to the gym',
-        start: new Date(2022, 10, 30, 18, 30, 0),
-        end: new Date(2022, 10, 30, 20, 0, 0),
-        description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-        location: "Studio 3",
-        coach: "Mary"
-      },
-    ]
-  );
+  const getClassData = (date, view) => {
+    const startOfCalendarView = new Date(moment(date).startOf(view).subtract(7, 'days')._d);
+    const today = new Date();
+    getUserClasses(
+      setHistory, setSchedule, 7, dateToString(startOfCalendarView),
+      (startOfCalendarView >= today) ? dateToString(startOfCalendarView) : dateToString(today),
+      (startOfCalendarView <= today),
+      (startOfCalendarView.getMonth() >= today.getMonth() - 1),
+      token
+    )
+  }
 
-  const eventStyleGetter = (event) => { 
-    console.log(event)
-    var style = { 
-      backgroundColor: event.end > new Date() ? "#403E56" : "#7f7d96",
-    }; 
-    return { style: style }; 
-  }; 
-    
   return (
     <>
     <Title title="My Classes"/>
     <div className="my-classes-container">
-      <Calendar
-        eventPropGetter={eventStyleGetter}
-        localizer={localizer}
-        defaultView="month"
+      <ClassCalendar 
         views={['month']}
-        events={events}
-        style={{ height: "60em" }}
-        components={{ event: Event }}
-        />
+        events={[].concat(history, schedule)}
+        onNavigate={ (date, view) => getClassData(date, view) }
+      />
     </div>
     </>
   );
