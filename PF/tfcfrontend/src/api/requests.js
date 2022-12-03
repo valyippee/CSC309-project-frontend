@@ -67,8 +67,8 @@ function createEventData(_class, enrollEnabled) {
     }
 }
 
-export async function getUserClassHistory(setHistory, weeks, startDate, token) {
-    await axios.get(server_url + "api/studios/classes/history/", {
+function getUserClassSchedule(setSchedule, weeks, startDate, token) {
+    axios.get(server_url + "api/studios/classes/schedule/", {
         headers: {
             Authorization: 'Token ' + token
         },
@@ -77,37 +77,36 @@ export async function getUserClassHistory(setHistory, weeks, startDate, token) {
             start_date: startDate
         }
     }).then((res) => {
-        console.log("history success")
-        console.log(startDate)
-        console.log(res)
         const events = res.data.map(_class => createEventData(_class, false));
-        setHistory(events);
+        setSchedule(events);
     }).catch((error) => {
-        console.log("history failed")
-        console.log(startDate)
         console.log(error)
     });
 }
 
-export async function getUserClassSchedule(setSchedule, weeks, startDate, token) {
-    await axios.get(server_url + "api/studios/classes/schedule/", {
-        headers: {
-            Authorization: 'Token ' + token
-        },
-        params: {
-            weeks: weeks,
-            start_date: startDate
-        }
-    }).then((res) => {
-        console.log("schedule success")
-        console.log(startDate)
-        console.log(res)
-        const events = res.data.map(_class => createEventData(_class, false));
-        // console.log(events)
-        setSchedule(events);
-    }).catch((error) => {
-        console.log("schedule failed")
-        console.log(startDate)
-        console.log(error)
-    });
+export function getUserClasses(
+    setHistory, setSchedule, weeks, startHistory, startSchedule, getHistory, getSchedule, token
+) {
+    if (getHistory) {
+        axios.get(server_url + "api/studios/classes/history/", {
+            headers: {
+                Authorization: 'Token ' + token
+            },
+            params: {
+                weeks: weeks,
+                start_date: startHistory
+            }
+        }).then((res) => {
+            const events = res.data.map(_class => createEventData(_class, false));
+            setHistory(events);
+
+            if (getSchedule) {
+                getUserClassSchedule(setSchedule, weeks, startSchedule, token);
+            }
+        }).catch((error) => {
+            console.log(error)
+        });
+    } else {
+        getUserClassSchedule(setSchedule, weeks, startSchedule, token);
+    }
 }
