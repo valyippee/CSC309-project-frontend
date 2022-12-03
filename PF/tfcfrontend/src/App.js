@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './api/AuthContext'
 import AccountPage from './pages/AccountPage';
 import MyClassesPage from './pages/MyClassesPage';
+import StudioPage from "./pages/StudioPage"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path='/login/' element={<LoginPage />}></Route>
             <Route path='/accounts/' element={<AccountPage/>}></Route>
             <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
+            <Route path='/studio/:id' element={<StudioPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
