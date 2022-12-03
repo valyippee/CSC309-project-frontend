@@ -1,0 +1,14 @@
+.homepage-body-container {
+    width: 100%;
+    margin: 0;
+    flex-wrap: wrap-reverse;
+}
+
+.studio-cards-container {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    padding: 1em;
+}
