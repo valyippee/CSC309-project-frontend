@@ -1,54 +1,15 @@
+import AuthContext from '../api/AuthContext';
+import { getUserClassHistory, getUserClassSchedule } from '../api/requests';
 import { useState, useContext, useEffect } from 'react';
-import { Calendar, DateLocalizer, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import Title from '../components/Title';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import { dateToString, Event } from '../components/ClassEvent';
 
 import './MyClassesPage.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import AuthContext from '../api/AuthContext';
-import { getUserClassHistory, getUserClassSchedule } from '../api/requests';
-
-function Event({ event }) {
-  let popover = (
-    <Popover id="event-popover">
-      <strong id="event-title">{event.title}</strong>
-      <br/>
-      <span id='event-description'>
-        {event.description}<br/><br/>
-        <strong>Location: </strong>{event.location}<br/>
-        <strong>Coach: </strong> {event.coach}<br/>
-        <strong>Time: </strong> {event.start.toLocaleTimeString()} - {event.end.toLocaleTimeString()} <br/>
-        <strong>Date: </strong> {dateToString(event.start)}
-      </span>
-      {event.end > new Date() && 
-        <div id='drop-buttons'>
-          <button className="btn btn-lg btn-primary" id="drop-instance">Drop this instance</button>
-          <button className="btn btn-lg btn-primary" id="drop-class">Drop this recurring class</button>
-        </div>
-      }
-    </Popover>
-  );
-
-  return (
-    <div>
-      <div>
-        <OverlayTrigger id="class-info" trigger="click" rootClose container={this} placement="auto-end" overlay={popover}>
-          <div>{event.title}</div>
-        </OverlayTrigger>
-      </div>
-    </div>
-  );
-}
-
-const dateToString = (date) => {
-  return date.getFullYear() + '-' +
-    ('0'+ (date.getMonth() + 1)).slice(-2) + '-' +
-    ('0'+ date.getDate()).slice(-2);
-}
 
 function MyClassesPage() {
   let {token} = useContext(AuthContext);
@@ -80,10 +41,6 @@ function MyClassesPage() {
     }
   }
 
-  const onNavigate = (date, view) => {
-    getClassData(date, view);
-  };
-
   const eventStyleGetter = (event) => { 
     var style = { 
       backgroundColor: event.end > new Date() ? "#403E56" : "#7f7d96",
@@ -113,7 +70,7 @@ function MyClassesPage() {
         events={[].concat(history, schedule)}
         style={{ height: "60em" }}
         components={{ event: Event }}
-        onNavigate={ (date, view) => onNavigate(date, view) }
+        onNavigate={ (date, view) => getClassData(date, view) }
         />
     </div>
     </>

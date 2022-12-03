@@ -1,0 +1,21 @@
+.popover {
+    max-width: 90%;
+    padding: 3em;
+}
+
+#event-title {
+    font-size: 1.5rem;
+}
+
+#event-description, #drop-instance, #drop-class, #enroll-instance, #enroll-class {
+    font-size: 1rem;
+}
+
+#drop-buttons, #enroll-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+#drop-class, #enroll-class {
+    margin-left: 2em;
+}

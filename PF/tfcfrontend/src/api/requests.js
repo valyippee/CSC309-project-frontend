@@ -45,7 +45,13 @@ export function getAvatar(setAvatar, token) {
     });
 }
 
-function createEventData(_class) {
+/**
+ * 
+ * @param {class details} _class 
+ * @param {whether the enroll options should be shown} enrollEnabled 
+ * @returns 
+ */
+function createEventData(_class, enrollEnabled) {
     const year = _class.date.split("-")[0];
     const month = _class.date.split("-")[1];
     const day = _class.date.split("-")[2];
@@ -56,7 +62,8 @@ function createEventData(_class) {
         end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2]),
         description: _class.description,
         location: _class.studio_name,
-        coach: _class.coach
+        coach: _class.coach,
+        enrollEnabled: enrollEnabled
     }
 }
 
@@ -73,7 +80,7 @@ export async function getUserClassHistory(setHistory, weeks, startDate, token) {
         console.log("history success")
         console.log(startDate)
         console.log(res)
-        const events = res.data.map(_class => createEventData(_class));
+        const events = res.data.map(_class => createEventData(_class, false));
         setHistory(events);
     }).catch((error) => {
         console.log("history failed")
@@ -95,7 +102,7 @@ export async function getUserClassSchedule(setSchedule, weeks, startDate, token)
         console.log("schedule success")
         console.log(startDate)
         console.log(res)
-        const events = res.data.map(_class => createEventData(_class));
+        const events = res.data.map(_class => createEventData(_class, false));
         // console.log(events)
         setSchedule(events);
     }).catch((error) => {
