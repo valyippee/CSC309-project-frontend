@@ -211,3 +211,14 @@ export function dropUserClassInstance(classId, date, token) {
         console.log(error.request._header);
     });
 }
+
+
+// STUDIOS
+export function getListOfStudios(setStudios, params) {
+    const locationPathString = params.location.lng + "," + params.location.lat + "/"
+
+    axios.get(server_url + "api/studios/list/" + locationPathString )
+    .then((res) => {
+        setStudios(res.data.results)
+    })
+}

@@ -1,0 +1,8 @@
+.studio-card-container {
+    height: 300px;
+    margin-bottom: 3em;
+}
+
+.studio-card-container:hover {
+    cursor: pointer;
+}

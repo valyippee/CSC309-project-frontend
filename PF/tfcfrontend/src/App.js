@@ -3,13 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.js';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
+import HomePage from './pages/HomePage';
 import Navbar from './components/Navbar'
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './api/AuthContext'
 import AccountPage from './pages/AccountPage';
 import MyClassesPage from './pages/MyClassesPage';
+import StudioPage from "./pages/StudioPage"
 
 function App() {
   return (
@@ -17,11 +18,12 @@ function App() {
       <AuthProvider>
       <Navbar/>
         <Routes>
-            <Route path='/' element={<Home />}></Route>
+            <Route path='/' element={<HomePage />}></Route>
             <Route path='/register/' element={<RegisterPage />}></Route>
             <Route path='/login/' element={<LoginPage />}></Route>
             <Route path='/accounts/:tab' element={<AccountPage/>}></Route>
             <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
+            <Route path='/studio/:id' element={<StudioPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>
