@@ -33,7 +33,7 @@ function Home() {
           <Row>
             {studios.map((studio) => (
               <Col xs={12} sm={6} md={6} lg={6} xl={6} xxl={4}>
-                <StudioCard studio={studio} />
+                <StudioCard key={studio.id} studio={studio} />
               </Col>
             ))}
           </Row>

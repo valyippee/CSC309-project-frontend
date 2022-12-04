@@ -12,6 +12,7 @@ function Map({ studios, currentLocation }) {
       >
         {studios.map((studio) => (
           <MarkerF
+            key={studio.id}
             position={{ lat: studio.lat, lng: studio.lon }}
             label={studio.name}
           />
