@@ -220,11 +220,24 @@ export function getStudioInfo(setStudioInfo, studioId) {
     })
 }
 
-export function getListOfStudios(setStudios, params) {
+export function getListOfStudios(setStudios, params, setStudiosPaginationNextUrl) {
     const locationPathString = params.location.lng + "," + params.location.lat + "/"
 
     axios.get(server_url + "api/studios/list/" + locationPathString )
     .then((res) => {
+        setStudiosPaginationNextUrl(res.data.next)
         setStudios(res.data.results)
+    })
+}
+
+export function getListOfStudiosByPaginationUrl(studios, setStudios, studiosPaginationNextUrl, setStudiosPaginationNextUrl) {
+    if (studiosPaginationNextUrl === null) {
+        return
+    }
+
+    axios.get(studiosPaginationNextUrl)
+    .then((res) => {
+        setStudiosPaginationNextUrl(res.data.next)
+        setStudios([...studios, ...res.data.results])
     })
 }
