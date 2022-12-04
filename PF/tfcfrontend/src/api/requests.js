@@ -110,28 +110,40 @@ export function getPaymentHistory(setPayments, token) {
     });
 }
 
+function getDateInfo(_class) {
+    const year = _class.date.split("-")[0];
+    const month = _class.date.split("-")[1];
+    const day = _class.date.split("-")[2];
+    return {
+        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
+        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2])
+    }
+}
+
+function getGeneralClassInfo(_class) {
+    return {
+        title: _class.class_name,
+        description: _class.description,
+        coach: _class.coach,
+        classId: _class.studio_class ? _class.studio_class : _class.id,
+    }
+}
+
 /**
  * 
  * @param {class details} _class 
  * @param {whether the enroll options should be shown} enrollEnabled 
- * @returns 
+ * @returns an event object to be displayed on the calendar
  */
  function createEventData(_class, enrollEnabled) {
-    const year = _class.date.split("-")[0];
-    const month = _class.date.split("-")[1];
-    const day = _class.date.split("-")[2];
-
-    return {
-        title: _class.class_name,
-        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
-        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2]),
-        description: _class.description,
+    const dateInfo = getDateInfo(_class);
+    const generalInfo = getGeneralClassInfo(_class);
+    const otherInfo = {
         location: _class.studio_name,
-        coach: _class.coach,
         enrollEnabled: enrollEnabled,
-        classId: _class.studio_class,
         classCancelled: _class.status == 2
     }
+    return {...dateInfo, ...generalInfo, ...otherInfo}
 }
 
 function getUserClassSchedule(setSchedule, weeks, startDate, token) {
@@ -227,4 +239,33 @@ export function getListOfStudios(setStudios, params) {
     .then((res) => {
         setStudios(res.data.results)
     })
+}
+
+/**
+ * 
+ * @param {class details} _class 
+ * @param {whether the enroll options should be shown} enrollEnabled 
+ * @returns an event object to be displayed on the calendar
+ */
+ function createStudioClassData(_class, enrollEnabled) {
+    const dateInfo = getDateInfo(_class);
+    const generalInfo = getGeneralClassInfo(_class.studio_class);
+    const otherInfo =  {
+        enrolled: false,  // defaults to false for now - need to add a check
+        enrollEnabled: enrollEnabled,
+        capacity: _class.studio_class.capacity
+    }
+    return {...dateInfo, ...generalInfo, ...otherInfo}
+}
+
+export function getStudioClassSchedule(setClassData, studioId, params) {
+    axios.get(
+        server_url + `api/studios/${studioId}/classes/`,
+        { params: params }
+    ).then((res) => {
+        const events = res.data.map(_class => createStudioClassData(_class, true));
+        setClassData(events);
+    }).catch((error) => {
+        console.log(error)
+    });
 }

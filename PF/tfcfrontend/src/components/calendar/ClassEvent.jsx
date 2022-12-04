@@ -30,7 +30,11 @@ export const Event = ({event}) => {
         <br/>
         <span id='event-description'>
           {event.description}<br/><br/>
-          <strong>Location: </strong>{event.location}<br/>
+          {event.location &&
+            <>
+              <strong>Location: </strong>{event.location}<br/>
+            </>
+          }
           <strong>Coach: </strong> {event.coach}<br/>
           <strong>Time: </strong> {event.start.toLocaleTimeString()} - {event.end.toLocaleTimeString()} <br/>
           <strong>Date: </strong> {dateToString(event.start)}

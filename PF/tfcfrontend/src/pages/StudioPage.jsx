@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from "react";
 import Title from "../components/Title";
+import ClassCalendar from '../components/calendar/ClassCalendar';
+import { dateToString } from '../components/calendar/ClassEvent';
 import "./StudioPage.css";
-import { getStudioInfo } from "../api/requests";
+import { getStudioInfo, getStudioClassSchedule } from "../api/requests";
 import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { MapPin, Phone, Check } from "react-feather";
+import moment from "moment";
 
 const StudioPage = () => {
   let { studio_id } = useParams();
+  console.log(studio_id)
+
+  const [classData, setClassData] = useState([]);
+  const [filters, setFilters] = useState({ weeks: 7 })
   const [studioInfo, setStudioInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getStudioInfo(setStudioInfo, studio_id);
+
+    const startDate = new Date()
+    startDate.setDate(1);  // first day of the month
+    getClassData(startDate, 'month');
   }, []);
 
   useEffect(() => {
@@ -21,6 +32,19 @@ const StudioPage = () => {
       setLoading(false);
     }
   }, [studioInfo]);
+
+  const getClassData = (date, view) => {
+    const startOfCalendarView = new Date(moment(date).startOf(view).subtract(7, 'days')._d);
+    const today = new Date();
+    const dateRangeFilters = {
+      weeks: 7,
+      start_date: dateToString(startOfCalendarView)
+    }
+    // if view is in the past, we don't have to display anything
+    if (startOfCalendarView.getMonth() >= today.getMonth() - 1) {
+        getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
+    }
+  }
 
   if (loading) {
     return (
@@ -46,7 +70,7 @@ const StudioPage = () => {
                   </thead>
                   <tbody>
                     {studioInfo.amenities.map((amenity) => (
-                        <tr>
+                        <tr key={amenity.id}>
                             <td><Check/></td>
                             <td>{amenity.amenity_type}</td>
                             <td style={{textAlign: "center"}}>{amenity.quantity}</td>
@@ -88,7 +112,15 @@ const StudioPage = () => {
             </div>
           </div>
           <div className="studiopage-body-bottom-container">
-            {/* TODO Filter And Calendar Component Placed Here */}
+            {/* TODO Filter Component Placed Here */}
+            <div className="studio-classes-calendar">
+              <h3 id="schedule-title">Our Monthly Schedule</h3>
+              <ClassCalendar 
+                views={['month']}
+                events={classData}
+                onNavigate={ (date, view) => getClassData(date, view) }
+              />
+            </div>
           </div>
         </div>
       </>
