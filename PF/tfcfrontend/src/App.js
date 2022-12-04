@@ -23,7 +23,7 @@ function App() {
             <Route path='/login/' element={<LoginPage />}></Route>
             <Route path='/accounts/:tab' element={<AccountPage/>}></Route>
             <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
-            <Route path='/studio/:id' element={<StudioPage/>}></Route>
+            <Route path='/studio/:studio_id' element={<StudioPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

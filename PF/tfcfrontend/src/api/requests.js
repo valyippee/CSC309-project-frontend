@@ -212,8 +212,14 @@ export function dropUserClassInstance(classId, date, token) {
     });
 }
 
-
 // STUDIOS
+export function getStudioInfo(setStudioInfo, studioId) {
+    axios.get(server_url + "api/studios/" + studioId)
+    .then((res) => {
+        setStudioInfo(res.data)
+    })
+}
+
 export function getListOfStudios(setStudios, params) {
     const locationPathString = params.location.lng + "," + params.location.lat + "/"
 
