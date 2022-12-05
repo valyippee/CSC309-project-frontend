@@ -11,6 +11,7 @@ import { AuthProvider } from './api/AuthContext'
 import AccountPage from './pages/AccountPage';
 import MyClassesPage from './pages/MyClassesPage';
 import StudioPage from "./pages/StudioPage"
+import SubscriptionsPage from './pages/SubscriptionsPage';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path='/accounts/:tab' element={<AccountPage/>}></Route>
             <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
             <Route path='/studio/:studio_id' element={<StudioPage/>}></Route>
+            <Route path='/subscriptions/' element={<SubscriptionsPage/>}></Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

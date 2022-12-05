@@ -228,3 +228,12 @@ export function getListOfStudios(setStudios, params) {
         setStudios(res.data.results)
     })
 }
+
+
+// SUBSCRIPTIONS
+export function getSubscriptionPlans(setSubscriptions) {
+    axios.get(server_url + "api/subscriptions/")
+    .then((res) => {
+        setSubscriptions(res.data.results)
+    })
+}
