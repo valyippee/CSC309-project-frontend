@@ -20,7 +20,7 @@ const ClassesFilterBar = (props) => {
                                 className="classes-filter-bar-select"
                                 onChange={(event) => props.onClassNameChange(event.target.value)}
                                 value={props.selectedFilters.className}>
-                                    <option value='Any'></option>
+                                    <option value='Any'>Any</option>
                                     {props.studioClassNames.map((name, index) => (
                                         <option key={index}>{name}</option>
                                     ))}
@@ -35,7 +35,7 @@ const ClassesFilterBar = (props) => {
                                 className="classes-filter-bar-select" 
                                 onChange={(event) => props.onCoachChange(event.target.value)}
                                 value={props.selectedFilters.coach}>
-                                    <option value='Any'></option>
+                                    <option value='Any'>Any</option>
                                     {props.coachNames.map((name, index) => (
                                         <option key={index}>{name}</option>
                                     ))}
