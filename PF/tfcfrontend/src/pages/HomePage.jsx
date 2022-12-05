@@ -15,7 +15,7 @@ function Home() {
   const [studiosPaginationNextUrl, setStudiosPaginationNextUrl] = useState("")
   
   useEffect(() => {
-    getListOfStudios(setStudios, {location: currentLocation}, setStudiosPaginationNextUrl)
+    getListOfStudios(setStudios, currentLocation, {}, setStudiosPaginationNextUrl)
 
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
@@ -25,7 +25,7 @@ function Home() {
   }, [])
 
   useEffect(() => {
-    getListOfStudios(setStudios, {location: currentLocation, selectedFilterTags: selectedFilterTags}, setStudiosPaginationNextUrl)
+    getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl)
   }, [currentLocation, selectedFilterTags])
 
   const handleStudioCardsScroll = (e) => {

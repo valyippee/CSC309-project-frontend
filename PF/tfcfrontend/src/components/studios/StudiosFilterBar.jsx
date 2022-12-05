@@ -35,10 +35,10 @@ const StudiosFilterBar = ({ setSelectedFilterTags }) => {
     }
 
     const selectedTags = {
-      studio_name: studioNameRef.current.value,
-      class_name: classNameRef.current.value,
-      amenity: amenityRef.current.value,
-      coach: coachRef.current.value,
+      studio_name: studioNameRef.current.value === "" ? null : studioNameRef.current.value,
+      class_name: classNameRef.current.value === "" ? null : classNameRef.current.value,
+      amenity: amenityRef.current.value === "" ? null : amenityRef.current.value,
+      coach: coachRef.current.value === "" ? null : coachRef.current.value,
     };
 
     setSelectedFilterTags(selectedTags);
