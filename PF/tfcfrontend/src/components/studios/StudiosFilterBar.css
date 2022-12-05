@@ -49,3 +49,7 @@
 .studio-filter-bar-apply-filters-button:hover {
     background-color: #4a4958;
 }
+
+.studio-filter-bar-clear-filters-button {
+    margin-left: 1em;
+}

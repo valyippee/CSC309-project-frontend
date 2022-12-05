@@ -222,8 +222,44 @@ export function getStudioInfo(setStudioInfo, studioId) {
 
 export function getListOfStudios(setStudios, params, setStudiosPaginationNextUrl) {
     const locationPathString = params.location.lng + "," + params.location.lat + "/"
+    let filterQueryParamsString = ""
 
-    axios.get(server_url + "api/studios/list/" + locationPathString)
+    if (params.selectedFilterTags !== null && params.selectedFilterTags !== undefined) { // Filter
+        if (Object.keys(params.selectedFilterTags).length !== 0) {
+            const selectedFilterTags = params.selectedFilterTags
+            
+            if (selectedFilterTags.studio_name !== "") {
+                if (filterQueryParamsString === "") {
+                    filterQueryParamsString += "?studio_name=" + selectedFilterTags.studio_name
+                } else {
+                    filterQueryParamsString += "&studio_name=" + selectedFilterTags.studio_name
+                }
+            } 
+            if (selectedFilterTags.class_name !== "") {
+                if (filterQueryParamsString === "") {
+                    filterQueryParamsString += "?class_name=" + selectedFilterTags.class_name
+                } else {
+                    filterQueryParamsString += "&class_name=" + selectedFilterTags.class_name
+                }
+            } 
+            if (selectedFilterTags.amenity !== "") {
+                if (filterQueryParamsString === "") {
+                    filterQueryParamsString += "?amenity=" + selectedFilterTags.amenity
+                } else {
+                    filterQueryParamsString += "&amenity=" + selectedFilterTags.amenity
+                }
+            } 
+            if (selectedFilterTags.coach !== "") {
+                if (filterQueryParamsString === "") {
+                    filterQueryParamsString += "?coach=" + selectedFilterTags.coach
+                } else {
+                    filterQueryParamsString += "&coach=" + selectedFilterTags.coach
+                }
+            } 
+        }
+    }
+
+    axios.get(server_url + "api/studios/list/" + locationPathString + filterQueryParamsString)
     .then((res) => {
         setStudiosPaginationNextUrl(res.data.next)
         setStudios(res.data.results)
