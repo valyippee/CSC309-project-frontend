@@ -50,17 +50,21 @@
     margin-right: 1em;
 }
 
-.classes-filter-bar-reset-filters-button-container {
+.classes-filter-button-container {
     display: flex;
     justify-content: flex-end;
     position: relative;
 }
 
-.classes-filter-bar-reset-filters-button {
-    margin: 1em;
+.classes-filter-reset-button {
+    margin-right: 1em;
     background-color: #7f7d96;
 }
 
-.classes-filter-bar-reset-filters-button:hover {
+.classes-filter-reset-button:hover {
     background-color: #6f6e81;
+}
+
+.classes-filter-apply-button {
+    background-color: #403E56;
 }

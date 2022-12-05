@@ -4,7 +4,7 @@ import ClassCalendar from '../components/calendar/ClassCalendar';
 import ClassesFilterBar from '../components/studios/ClassesFilterBar';
 import { dateToString } from '../components/calendar/ClassEvent';
 import "./StudioPage.css";
-import { getStudioInfo, getStudioClassSchedule } from "../api/requests";
+import { getStudioInfo, getStudioClassSchedule, getAllCoachAndClass } from "../api/requests";
 import { useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
@@ -13,20 +13,22 @@ import moment from "moment";
 
 const StudioPage = () => {
   let { studio_id } = useParams();
-  console.log(studio_id)
 
+  const [calendarInfo, setCalendarInfo] = useState({date: new Date().setDate(1), view: 'month'})
   const [classData, setClassData] = useState([]);
-  const [filters, setFilters] = useState({ weeks: 7 })
+  const [filterClassName, setFilterClassName] = useState('Any')
+  const [filterCoachName, setFilterCoachName] = useState('Any')
   const [timeRangeValue, setTimeRangeValue] = useState({ start: "08:00", end: "22:00" })
   const [studioInfo, setStudioInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const [allClassNames, setAllClassNames] = useState([]);
+  const [allCoachNames, setAllCoachNames] = useState([]);
+
   useEffect(() => {
     getStudioInfo(setStudioInfo, studio_id);
-
-    const startDate = new Date()
-    startDate.setDate(1);  // first day of the month
-    getClassData(startDate, 'month');
+    getClassData();
+    getAllCoachAndClass(setAllClassNames, setAllCoachNames, studio_id);
   }, []);
 
   useEffect(() => {
@@ -35,16 +37,28 @@ const StudioPage = () => {
     }
   }, [studioInfo]);
 
-  const getClassData = (date, view) => {
-    const startOfCalendarView = new Date(moment(date).startOf(view).subtract(7, 'days')._d);
+  const onCalendarChange = (date, view) => {
+    setCalendarInfo({date: date, view: view})
+    getClassData()
+  }
+
+  const getClassData = () => {
+    console.log(calendarInfo.date)
+    const startOfCalendarView = new Date(moment(calendarInfo.date).startOf(calendarInfo.view).subtract(7, 'days')._d);
     const today = new Date();
     const dateRangeFilters = {
       weeks: 7,
-      start_date: dateToString(startOfCalendarView)
+      start_date: dateToString(startOfCalendarView),
+      coach: filterCoachName != 'Any' ? filterCoachName : null,
+      class_name: filterClassName != 'Any' ? filterClassName : null,
+      start_time: timeRangeValue.start,
+      end_time: timeRangeValue.end
     }
     // if view is in the past, we don't have to display anything
+    console.log(startOfCalendarView)
+    console.log(today)
     if (startOfCalendarView.getMonth() >= today.getMonth() - 1) {
-        getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
+      getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
     }
   }
 
@@ -52,8 +66,16 @@ const StudioPage = () => {
     setTimeRangeValue(time);
   }
 
-  const changeCompleteHandler = (time) => {
-      console.log("Complete Handler Called", time);
+  const resetFilters = () => {
+    setTimeRangeValue({ start: "08:00", end: "22:00" });
+    setFilterClassName('Any');
+    setFilterCoachName('Any');
+    console.log("reset filters")
+    getClassData();
+  }
+
+  const applyFilters = () => {
+    getClassData();
   }
 
   if (loading) {
@@ -125,14 +147,21 @@ const StudioPage = () => {
             <div className="studio-classes-calendar">
               <h3 id="schedule-title">Our Monthly Schedule</h3>
               <ClassesFilterBar 
-                changeCompleteHandler={(time) => changeCompleteHandler(time)}
+                studioClassNames={allClassNames}
+                coachNames={allCoachNames}
                 timeChangeHandler={(time) => timeChangeHandler(time)}
                 timeRangeValue={timeRangeValue}
+                classData={classData}
+                // defaultFilters={{coach: filterCoachName, className: filterClassName}}
+                resetFilters={resetFilters}
+                applyFilters={applyFilters}
+                onClassNameChange={setFilterClassName}
+                onCoachChange={setFilterCoachName}
               />
               <ClassCalendar 
                 views={['month']}
                 events={classData}
-                onNavigate={ (date, view) => getClassData(date, view) }
+                onNavigate={ (date, view) => onCalendarChange(date, view) }
               />
             </div>
           </div>
