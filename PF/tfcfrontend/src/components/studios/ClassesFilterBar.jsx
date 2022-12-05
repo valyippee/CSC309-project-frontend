@@ -7,9 +7,6 @@ import Button from "react-bootstrap/Button";
 import TimeRangeSlider from 'react-time-range-slider';
 
 const ClassesFilterBar = (props) => {
-    // const studioClassNames = [...new Set(props.classData.map((_class) => _class.title))]
-    // const coachNames = [...new Set(props.classData.map((_class) => _class.coach))]
-
     return (
         <>
             <div className="classes-filter-bar-container">
@@ -19,11 +16,14 @@ const ClassesFilterBar = (props) => {
                             <Form.Label className="classes-filter-bar-label">
                                 Class Name
                             </Form.Label>
-                            <Form.Select className="classes-filter-bar-select" onChange={(event) => props.onClassNameChange(event.target.value)}>
-                                <option value='Any'></option>
-                                {props.studioClassNames.map((name, index) => (
-                                    <option key={index}>{name}</option>
-                                ))}
+                            <Form.Select 
+                                className="classes-filter-bar-select"
+                                onChange={(event) => props.onClassNameChange(event.target.value)}
+                                value={props.selectedFilters.className}>
+                                    <option value='Any'></option>
+                                    {props.studioClassNames.map((name, index) => (
+                                        <option key={index}>{name}</option>
+                                    ))}
                             </Form.Select>
                         </Form.Group>
 
@@ -31,11 +31,14 @@ const ClassesFilterBar = (props) => {
                             <Form.Label className="classes-filter-bar-label">
                                 Coach
                             </Form.Label>
-                            <Form.Select className="classes-filter-bar-select" onChange={(event) => props.onCoachChange(event.target.value)}>
-                                <option value='Any'></option>
-                                {props.coachNames.map((name, index) => (
-                                    <option key={index}>{name}</option>
-                                ))}
+                            <Form.Select
+                                className="classes-filter-bar-select" 
+                                onChange={(event) => props.onCoachChange(event.target.value)}
+                                value={props.selectedFilters.coach}>
+                                    <option value='Any'></option>
+                                    {props.coachNames.map((name, index) => (
+                                        <option key={index}>{name}</option>
+                                    ))}
                             </Form.Select>
                         </Form.Group>
                     </Row>
@@ -62,9 +65,6 @@ const ClassesFilterBar = (props) => {
             <div className="classes-filter-button-container">
                 <Button className="classes-filter-reset-button" onClick={() => props.resetFilters()}>
                     Reset Filters
-                </Button>
-                <Button className="classes-filter-apply-button" onClick={() => props.applyFilters()}>
-                    Apply Filters
                 </Button>
             </div>
         </>

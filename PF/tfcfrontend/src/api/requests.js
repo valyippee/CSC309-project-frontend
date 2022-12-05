@@ -299,8 +299,6 @@ export function getAllCoachAndClass(setAllClassNames, setAllCoachNames, studioId
     axios.get(
         server_url + `api/studios/${studioId}/coach-and-class/`
     ).then((res) => {
-        console.log(res)
-        // const events = res.data.map(_class => createStudioClassData(_class, true));
         setAllClassNames(res.data.class_names);
         setAllCoachNames(res.data.coach_names);
     }).catch((error) => {

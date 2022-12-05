@@ -37,13 +37,16 @@ const StudioPage = () => {
     }
   }, [studioInfo]);
 
+  useEffect(() => {
+    getClassData();
+  }, [filterClassName, filterCoachName, timeRangeValue]);
+
   const onCalendarChange = (date, view) => {
     setCalendarInfo({date: date, view: view})
     getClassData()
   }
 
   const getClassData = () => {
-    console.log(calendarInfo.date)
     const startOfCalendarView = new Date(moment(calendarInfo.date).startOf(calendarInfo.view).subtract(7, 'days')._d);
     const today = new Date();
     const dateRangeFilters = {
@@ -55,8 +58,6 @@ const StudioPage = () => {
       end_time: timeRangeValue.end
     }
     // if view is in the past, we don't have to display anything
-    console.log(startOfCalendarView)
-    console.log(today)
     if (startOfCalendarView.getMonth() >= today.getMonth() - 1) {
       getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
     }
@@ -70,12 +71,6 @@ const StudioPage = () => {
     setTimeRangeValue({ start: "08:00", end: "22:00" });
     setFilterClassName('Any');
     setFilterCoachName('Any');
-    console.log("reset filters")
-    getClassData();
-  }
-
-  const applyFilters = () => {
-    getClassData();
   }
 
   if (loading) {
@@ -152,9 +147,8 @@ const StudioPage = () => {
                 timeChangeHandler={(time) => timeChangeHandler(time)}
                 timeRangeValue={timeRangeValue}
                 classData={classData}
-                // defaultFilters={{coach: filterCoachName, className: filterClassName}}
+                selectedFilters={{coach: filterCoachName, className: filterClassName}}
                 resetFilters={resetFilters}
-                applyFilters={applyFilters}
                 onClassNameChange={setFilterClassName}
                 onCoachChange={setFilterCoachName}
               />
