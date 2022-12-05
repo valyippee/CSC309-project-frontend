@@ -223,7 +223,7 @@ export function getStudioInfo(setStudioInfo, studioId) {
 export function getListOfStudios(setStudios, params, setStudiosPaginationNextUrl) {
     const locationPathString = params.location.lng + "," + params.location.lat + "/"
 
-    axios.get(server_url + "api/studios/list/" + locationPathString )
+    axios.get(server_url + "api/studios/list/" + locationPathString)
     .then((res) => {
         setStudiosPaginationNextUrl(res.data.next)
         setStudios(res.data.results)
@@ -239,5 +239,16 @@ export function getListOfStudiosByPaginationUrl(studios, setStudios, studiosPagi
     .then((res) => {
         setStudiosPaginationNextUrl(res.data.next)
         setStudios([...studios, ...res.data.results])
+    })
+}
+
+export function getFilterTagsForStudios(setTags) {
+    axios.get(server_url + "api/studios/tags/")
+    .then((res) => {
+        res.data.studio_names = ["", ...res.data.studio_names]
+        res.data.amenities = ["", ...res.data.amenities]
+        res.data.class_names = ["", ...res.data.class_names]
+        res.data.coaches = ["", ...res.data.coaches]
+        setTags(res.data)
     })
 }
