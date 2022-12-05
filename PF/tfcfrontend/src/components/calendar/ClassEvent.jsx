@@ -27,21 +27,30 @@ export const Event = ({event}) => {
     let {token} = useContext(AuthContext);
     const navigate = useNavigate();
     const navigateToSub = () => {navigate('/')}  // TODO: add subscriptions page link
+    const navigateToLogin = () => {navigate("/login")}
 
     const [showSuccessModal, setSuccessModal] = useState(false);
     const [successMessage, setSuccessMessage] = useState("");
     const [showErrorModal, setErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [errorButtonText, setErrorButtonText] = useState("");
+    const [errorAction, setErrorAction] = useState()
 
     const enrollClass = () => {
-      setSuccessMessage(`You have been enrolled in ${event.title} as a recurring class.`);
-      enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, event.classId, null, token);
+      if (token == null) {
+        setErrorModal(true);
+        setErrorMessage("You are not logged in.");
+        setErrorButtonText("Log in now");
+        setErrorAction(() => navigateToLogin)
+      } else {
+        setSuccessMessage(`You have been enrolled in ${event.title} as a recurring class.`);
+        enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, event.classId, null, token);
+      }
     }
     
     const enrollClassInstance = () => {
       setSuccessMessage(`You have been enrolled in ${event.title} for ${date}.`);
-      enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, event.classId, dateToString(event.start), token);
+      enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, event.classId, dateToString(event.start), token);
     }
 
     let EventPopover = (
@@ -106,7 +115,7 @@ export const Event = ({event}) => {
             showModal={showErrorModal} title={"Oh no!"}
             onHide={() => setErrorModal(false)} message={errorMessage}
             buttonText={errorButtonText}
-            onConfirm={navigateToSub}  // hardcorded this instead of doing it upon sending api request since there is only one possible action
+            onConfirm={errorAction}
           />
         </div>
         <div>

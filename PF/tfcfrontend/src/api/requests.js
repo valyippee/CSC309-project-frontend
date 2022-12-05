@@ -269,7 +269,7 @@ export function getStudioClassSchedule(setClassData, studioId, params) {
     });
 }
 
-export function enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, classId, date, token) {
+export function enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, classId, date, token) {
     axios({
         method: 'post',
         url: server_url + `api/studios/classes/${classId}/enrol/`,
@@ -280,16 +280,15 @@ export function enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage,
             date: date
         }
     }).then((res) => {
-        console.log(res);
         setSuccessModal(true);
     }).catch((error) => {
-        console.log(error);
         setErrorModal(true);
         if (error.response.data.error_code == 2) {
             setErrorMessage("Class is already full.");
         } else if (error.response.data.error_code == 3) {
             setErrorMessage("You do not have an active subscription.");
-            setErrorButtonText("Subscribe now")
+            setErrorButtonText("Subscribe now");
+            setErrorAction(() => navigateToSub);
         } else if (error.response.data.error_code == 1) {
             setErrorMessage("You are already enrolled in this class.");
         }
