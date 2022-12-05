@@ -18,12 +18,11 @@
 
 .map-filterbar-container {
   width: 40%;
-  height: 100%;
   display: flex;
-  justify-content: center;
   padding: 1em;
-  height: 100%;
-  overflow: scroll
+  overflow: scroll;
+  flex-direction: column;
+  align-items: center;
 }
 
 .studio-cards-container, .map-filterbar-container {

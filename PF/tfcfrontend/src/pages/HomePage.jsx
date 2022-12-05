@@ -2,6 +2,7 @@ import {React, useState, useEffect} from 'react'
 import "./HomePage.css"
 import Title from '../components/Title';
 import Map from "../components/Map"
+import StudiosFilterBar from '../components/studios/StudiosFilterBar';
 import { getListOfStudios, getListOfStudiosByPaginationUrl } from '../api/requests'
 import { StudioCard } from '../components/studios/StudioCard';
 import Col from 'react-bootstrap/Col';
@@ -48,6 +49,7 @@ function Home() {
         </div>
         <div className="map-filterbar-container">
           <Map studios={studios} currentLocation={currentLocation}/>
+          <StudiosFilterBar/>
         </div>
       </div>
     </>
