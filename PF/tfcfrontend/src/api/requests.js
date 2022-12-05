@@ -192,7 +192,6 @@ export function getUserClasses(
 }
 
 export function dropUserClass(classId, token) {
-    console.log(token)
     axios({
         method: 'patch',
         url: server_url + `api/studios/classes/${classId}/drop/`,
@@ -207,20 +206,19 @@ export function dropUserClass(classId, token) {
 }
 
 export function dropUserClassInstance(classId, date, token) {
-    console.log(token)
     axios({
         method: 'post',
         url: server_url + `api/studios/classes/${classId}/drop/`,
         headers: {
             Authorization: 'Token ' + token
         },
-        data: {
+        params: {
             date: date
         }
     }).then((res) => {
         console.log(res);
     }).catch((error) => {
-        console.log(error.request._header);
+        console.log(error);
     });
 }
 
@@ -253,7 +251,8 @@ export function getListOfStudios(setStudios, params) {
     const otherInfo =  {
         enrolled: false,  // defaults to false for now - need to add a check
         enrollEnabled: enrollEnabled,
-        capacity: _class.studio_class.capacity
+        capacity: _class.studio_class.capacity,
+        keywords: _class.studio_class.keywords.map((word) => word.keyword)
     }
     return {...dateInfo, ...generalInfo, ...otherInfo}
 }
@@ -267,5 +266,32 @@ export function getStudioClassSchedule(setClassData, studioId, params) {
         setClassData(events);
     }).catch((error) => {
         console.log(error)
+    });
+}
+
+export function enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, classId, date, token) {
+    axios({
+        method: 'post',
+        url: server_url + `api/studios/classes/${classId}/enrol/`,
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        params: {
+            date: date
+        }
+    }).then((res) => {
+        console.log(res);
+        setSuccessModal(true);
+    }).catch((error) => {
+        console.log(error);
+        setErrorModal(true);
+        if (error.response.data.error_code == 2) {
+            setErrorMessage("Class is already full.");
+        } else if (error.response.data.error_code == 3) {
+            setErrorMessage("You do not have an active subscription.");
+            setErrorButtonText("Subscribe now")
+        } else if (error.response.data.error_code == 1) {
+            setErrorMessage("You are already enrolled in this class.");
+        }
     });
 }
