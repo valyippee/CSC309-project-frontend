@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Title from "../components/Title";
 import ClassCalendar from '../components/calendar/ClassCalendar';
+import ClassesFilterBar from '../components/studios/ClassesFilterBar';
 import { dateToString } from '../components/calendar/ClassEvent';
 import "./StudioPage.css";
 import { getStudioInfo, getStudioClassSchedule } from "../api/requests";
@@ -112,9 +113,9 @@ const StudioPage = () => {
             </div>
           </div>
           <div className="studiopage-body-bottom-container">
-            {/* TODO Filter Component Placed Here */}
             <div className="studio-classes-calendar">
               <h3 id="schedule-title">Our Monthly Schedule</h3>
+              <ClassesFilterBar />
               <ClassCalendar 
                 views={['month']}
                 events={classData}
