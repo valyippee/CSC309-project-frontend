@@ -17,6 +17,7 @@ const StudioPage = () => {
 
   const [classData, setClassData] = useState([]);
   const [filters, setFilters] = useState({ weeks: 7 })
+  const [timeRangeValue, setTimeRangeValue] = useState({ start: "08:00", end: "22:00" })
   const [studioInfo, setStudioInfo] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -45,6 +46,14 @@ const StudioPage = () => {
     if (startOfCalendarView.getMonth() >= today.getMonth() - 1) {
         getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
     }
+  }
+
+  const timeChangeHandler = (time) => {
+    setTimeRangeValue(time);
+  }
+
+  const changeCompleteHandler = (time) => {
+      console.log("Complete Handler Called", time);
   }
 
   if (loading) {
@@ -115,7 +124,11 @@ const StudioPage = () => {
           <div className="studiopage-body-bottom-container">
             <div className="studio-classes-calendar">
               <h3 id="schedule-title">Our Monthly Schedule</h3>
-              <ClassesFilterBar />
+              <ClassesFilterBar 
+                changeCompleteHandler={(time) => changeCompleteHandler(time)}
+                timeChangeHandler={(time) => timeChangeHandler(time)}
+                timeRangeValue={timeRangeValue}
+              />
               <ClassCalendar 
                 views={['month']}
                 events={classData}
