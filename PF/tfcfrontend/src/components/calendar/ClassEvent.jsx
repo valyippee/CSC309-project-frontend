@@ -128,18 +128,22 @@ export const Event = ({event}) => {
                 onClick={() => dropClass(dateToString(event.start), true)}>
                   Drop this class instance
               </button>
-              <button 
-                className="btn btn-lg btn-primary"
-                id="drop-class"
-                onClick={() => dropClass(dateToString(event.start), false)}>
-                  Drop recurring class from this date
-              </button>
-              <button 
-                className="btn btn-lg btn-primary"
-                id="drop-class"
-                onClick={() => dropClass(null, false)}>
-                  Drop all recurring classes
-              </button>
+              {event.isRecurring &&
+              <>
+                <button 
+                  className="btn btn-lg btn-primary"
+                  id="drop-class"
+                  onClick={() => dropClass(dateToString(event.start), false)}>
+                    Drop recurring class from this date
+                </button>
+                <button 
+                  className="btn btn-lg btn-primary"
+                  id="drop-class"
+                  onClick={() => dropClass(null, false)}>
+                    Drop all recurring classes
+                </button>
+              </>  
+              }
             </div>
           }
           {event.enrollEnabled && !event.enrolled &&

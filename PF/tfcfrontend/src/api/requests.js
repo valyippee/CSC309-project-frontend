@@ -141,7 +141,8 @@ function getGeneralClassInfo(_class) {
     const otherInfo = {
         location: _class.studio_name,
         enrollEnabled: enrollEnabled,
-        classCancelled: _class.status == 2
+        classCancelled: _class.status == 2,
+        isRecurring: _class.is_recurring
     }
     return {...dateInfo, ...generalInfo, ...otherInfo}
 }
