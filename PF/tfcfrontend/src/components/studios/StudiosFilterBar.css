@@ -1,0 +1,55 @@
+.studios-filter-bar-container {
+    width: 95%;
+    height: 120%;
+    margin-top: 1em;
+}
+
+.studios-filter-bar-dropdown-button {
+    width: 100%;
+    background-color: #403E56;
+}
+
+.studios-filter-bar-dropdown-button:hover {
+    background-color: #4a4958;
+}
+
+.studios-filter-bar-dropdown-menu-container {
+    width: 100%;
+}
+
+.studios-filter-bar-label-select-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.8em;
+}
+
+.studios-filter-bar-label {
+    margin: 0;
+    text-align: right;
+    margin-right: 1em;
+}
+
+.studios-filter-bar-select {
+    margin-right: 1em;
+}
+
+.studio-filter-bar-apply-filters-button-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.studio-filter-bar-apply-filters-button {
+    margin: 0;
+    background-color: #403E56;
+}
+
+.studio-filter-bar-apply-filters-button:hover {
+    background-color: #4a4958;
+}
+
+.studio-filter-bar-clear-filters-button {
+    margin-left: 1em;
+}

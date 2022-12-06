@@ -220,11 +220,35 @@ export function getStudioInfo(setStudioInfo, studioId) {
     })
 }
 
-export function getListOfStudios(setStudios, params) {
-    const locationPathString = params.location.lng + "," + params.location.lat + "/"
+export function getListOfStudios(setStudios, location, params, setStudiosPaginationNextUrl) {
+    const locationPathString = location.lng + "," + location.lat + "/"
 
-    axios.get(server_url + "api/studios/list/" + locationPathString )
+    axios.get(server_url + "api/studios/list/" + locationPathString, {params: params})
     .then((res) => {
+        setStudiosPaginationNextUrl(res.data.next)
         setStudios(res.data.results)
+    })
+}
+
+export function getListOfStudiosByPaginationUrl(studios, setStudios, studiosPaginationNextUrl, setStudiosPaginationNextUrl) {
+    if (studiosPaginationNextUrl === null) {
+        return
+    }
+
+    axios.get(studiosPaginationNextUrl)
+    .then((res) => {
+        setStudiosPaginationNextUrl(res.data.next)
+        setStudios([...studios, ...res.data.results])
+    })
+}
+
+export function getFilterTagsForStudios(setTags) {
+    axios.get(server_url + "api/studios/tags/")
+    .then((res) => {
+        res.data.studio_names = ["", ...res.data.studio_names]
+        res.data.amenities = ["", ...res.data.amenities]
+        res.data.class_names = ["", ...res.data.class_names]
+        res.data.coaches = ["", ...res.data.coaches]
+        setTags(res.data)
     })
 }
