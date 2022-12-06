@@ -78,8 +78,8 @@ const StudiosFilterBar = ({ setSelectedFilterTags }) => {
                   className="studios-filter-bar-select"
                   ref={studioNameRef}
                 >
-                  {tags.studio_names.map((studio_name) => (
-                    <option>{studio_name}</option>
+                  {tags.studio_names.map((studio_name, index) => (
+                    <option key={index}>{studio_name}</option>
                   ))}
                 </Form.Select>
               </Form.Group>
@@ -91,8 +91,8 @@ const StudiosFilterBar = ({ setSelectedFilterTags }) => {
                   className="studios-filter-bar-select"
                   ref={classNameRef}
                 >
-                  {tags.class_names.map((class_name) => (
-                    <option>{class_name}</option>
+                  {tags.class_names.map((class_name, index) => (
+                    <option key={index}>{class_name}</option>
                   ))}
                 </Form.Select>
               </Form.Group>
@@ -104,8 +104,8 @@ const StudiosFilterBar = ({ setSelectedFilterTags }) => {
                   className="studios-filter-bar-select"
                   ref={amenityRef}
                 >
-                  {tags.amenities.map((amenity) => (
-                    <option>{amenity}</option>
+                  {tags.amenities.map((amenity, index) => (
+                    <option key={index}>{amenity}</option>
                   ))}
                 </Form.Select>
               </Form.Group>
@@ -117,8 +117,8 @@ const StudiosFilterBar = ({ setSelectedFilterTags }) => {
                   className="studios-filter-bar-select"
                   ref={coachRef}
                 >
-                  {tags.coaches.map((coach) => (
-                    <option>{coach}</option>
+                  {tags.coaches.map((coach, index) => (
+                    <option key={index}>{coach}</option>
                   ))}
                 </Form.Select>
               </Form.Group>
