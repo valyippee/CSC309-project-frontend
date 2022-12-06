@@ -317,6 +317,7 @@ export function getAllCoachAndClass(setAllClassNames, setAllCoachNames, studioId
     }).catch((error) => {
         console.log(error)
     });
+}
 
 export function getListOfStudiosByPaginationUrl(studios, setStudios, studiosPaginationNextUrl, setStudiosPaginationNextUrl) {
     if (studiosPaginationNextUrl === null) {
