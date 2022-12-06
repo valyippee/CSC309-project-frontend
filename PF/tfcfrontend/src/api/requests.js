@@ -86,6 +86,17 @@ export function getSubscriptions(setSubscriptions) {
     });
 }
 
+export function getUserSubscription(setUserSubscription, token) {
+    axios.get(server_url + "/api/subscriptions/mysubscription/", {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    })
+    .then(res => {
+        setUserSubscription(res.data)
+    })
+}
+
 export function getFuturePayments(setPayments, token) {
     axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
@@ -226,14 +237,5 @@ export function getListOfStudios(setStudios, params) {
     axios.get(server_url + "api/studios/list/" + locationPathString )
     .then((res) => {
         setStudios(res.data.results)
-    })
-}
-
-
-// SUBSCRIPTIONS
-export function getSubscriptionPlans(setSubscriptions) {
-    axios.get(server_url + "api/subscriptions/")
-    .then((res) => {
-        setSubscriptions(res.data.results)
     })
 }
