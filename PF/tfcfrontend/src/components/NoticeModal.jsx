@@ -12,18 +12,22 @@ function NoticeModal(props) {
         <Modal.Body id='modalMessage'>{props.message}</Modal.Body>
         <div className='modalButtons'>
           <button
-            id='cancelButton'
+            id='closeButton'
             className="btn btn-lg btn-primary"
             onClick={props.onHide}>
-            Cancel
+            Close
           </button>
-          <button 
-            id='confirmButton'
-            className="btn btn-lg btn-primary"
-            color='#403E56'
-            onClick={props.onConfirm}>
-          {props.buttonText}
-          </button>
+          {props.buttonText &&
+            <>
+              <button 
+                id='confirmButton'
+                className="btn btn-lg btn-primary"
+                color='#403E56'
+                onClick={props.onConfirm}>
+              {props.buttonText}
+              </button>
+            </>
+          }
         </div>
       </Modal>
     </>

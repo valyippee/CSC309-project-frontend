@@ -2,6 +2,7 @@
   width: 100%;
   margin: 0;
   display: flex;
+  flex-wrap: wrap;
   padding: 2em;
   justify-content: center;
 }
@@ -108,3 +109,24 @@
       font-size: 1em;
     }
   }
+
+.studiopage-body-bottom-container {
+  width: 100%;
+  margin: 2em;
+}
+
+.studio-classes-calendar {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 5%;
+  height: '500pt';
+}
+
+.rbc-event {
+  height: 2.5em;    
+}
+
+#schedule-title {
+  margin-bottom: 1em;
+  margin-top: 1em;
+}

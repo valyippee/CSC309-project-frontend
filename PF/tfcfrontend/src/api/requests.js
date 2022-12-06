@@ -110,28 +110,41 @@ export function getPaymentHistory(setPayments, token) {
     });
 }
 
+function getDateInfo(_class) {
+    const year = _class.date.split("-")[0];
+    const month = _class.date.split("-")[1];
+    const day = _class.date.split("-")[2];
+    return {
+        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
+        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2])
+    }
+}
+
+function getGeneralClassInfo(_class) {
+    return {
+        title: _class.class_name,
+        description: _class.description,
+        coach: _class.coach,
+        classId: _class.studio_class ? _class.studio_class : _class.id,
+    }
+}
+
 /**
  * 
  * @param {class details} _class 
  * @param {whether the enroll options should be shown} enrollEnabled 
- * @returns 
+ * @returns an event object to be displayed on the calendar
  */
  function createEventData(_class, enrollEnabled) {
-    const year = _class.date.split("-")[0];
-    const month = _class.date.split("-")[1];
-    const day = _class.date.split("-")[2];
-
-    return {
-        title: _class.class_name,
-        start: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.start_time.split(":")[0], _class.start_time.split(":")[1], _class.start_time.split(":")[2]),
-        end: new Date(parseInt(year), parseInt(month) - 1, parseInt(day), _class.end_time.split(":")[0], _class.end_time.split(":")[1], _class.end_time.split(":")[2]),
-        description: _class.description,
+    const dateInfo = getDateInfo(_class);
+    const generalInfo = getGeneralClassInfo(_class);
+    const otherInfo = {
         location: _class.studio_name,
-        coach: _class.coach,
         enrollEnabled: enrollEnabled,
-        classId: _class.studio_class,
-        classCancelled: _class.status == 2
+        classCancelled: _class.status == 2,
+        isRecurring: _class.is_recurring
     }
+    return {...dateInfo, ...generalInfo, ...otherInfo}
 }
 
 function getUserClassSchedule(setSchedule, weeks, startDate, token) {
@@ -179,25 +192,9 @@ export function getUserClasses(
     }
 }
 
-export function dropUserClass(classId, token) {
-    console.log(token)
+export function dropUserClass(setDropErrorStatusCode, isInstance, classId, date, token) {
     axios({
-        method: 'patch',
-        url: server_url + `api/studios/classes/${classId}/drop/`,
-        headers: {
-            Authorization: 'Token ' + token
-        }
-    }).then((res) => {
-        console.log(res);
-    }).catch((error) => {
-        console.log(error);
-    });
-}
-
-export function dropUserClassInstance(classId, date, token) {
-    console.log(token)
-    axios({
-        method: 'post',
+        method: isInstance ? 'post' : 'patch',
         url: server_url + `api/studios/classes/${classId}/drop/`,
         headers: {
             Authorization: 'Token ' + token
@@ -208,7 +205,8 @@ export function dropUserClassInstance(classId, date, token) {
     }).then((res) => {
         console.log(res);
     }).catch((error) => {
-        console.log(error.request._header);
+        console.log(error);
+        setDropErrorStatusCode(-1);
     });
 }
 
@@ -228,6 +226,97 @@ export function getListOfStudios(setStudios, location, params, setStudiosPaginat
         setStudiosPaginationNextUrl(res.data.next)
         setStudios(res.data.results)
     })
+}
+
+/**
+ * 
+ * @param {class details} _class 
+ * @param {whether the enroll options should be shown} enrollEnabled 
+ * @returns an event object to be displayed on the calendar
+ */
+ function createStudioClassData(_class, enrollEnabled) {
+    const dateInfo = getDateInfo(_class);
+    const generalInfo = getGeneralClassInfo(_class.studio_class);
+    const otherInfo =  {
+        enrolled: false,  // defaults to false for now - need to add a check
+        enrollEnabled: enrollEnabled,
+        capacity: _class.studio_class.capacity,
+        keywords: _class.studio_class.keywords.map((word) => word.keyword)
+    }
+    return {...dateInfo, ...generalInfo, ...otherInfo}
+}
+
+export function getStudioClassSchedule(setClassData, studioId, params, userScheduleStartDate, token) {
+    axios.get(
+        server_url + `api/studios/${studioId}/classes/`,
+        { params: params }
+    ).then((res) => {
+        const events = res.data.map(_class => createStudioClassData(_class, true));
+        if (token == null) {
+            setClassData(events);
+        } else {
+            axios.get(server_url + "api/studios/classes/schedule/", {
+                headers: {
+                    Authorization: 'Token ' + token
+                },
+                params: {
+                    weeks: params.weeks,
+                    start_date: userScheduleStartDate
+                }
+            }).then((res) => {
+                const userSchedule = res.data.map(_class => ({...getDateInfo(_class), ...{classId: _class.studio_class}}));
+                // check if user is enrolled in each class
+                events.forEach(_class => {
+                    for (var i = 0; i < userSchedule.length; i++) {
+                        if (_class.classId == userSchedule[i].classId 
+                                && _class.start.valueOf() === userSchedule[i].start.valueOf()) {
+                            _class.enrolled = true;
+                            break;
+                        }
+                    }
+                });
+                setClassData(events);
+            }).catch((error) => {
+                console.log(error)
+            });
+        }
+    }).catch((error) => {
+        console.log(error)
+    });
+}
+
+export function enrollUserClass(setEnrollErrorStatusCode, classId, date, token) {
+    console.log(date);
+    axios({
+        method: 'post',
+        url: server_url + `api/studios/classes/${classId}/enrol/`,
+        headers: {
+            Authorization: 'Token ' + token
+        },
+        data: {
+            date: date
+        }
+    }).then((res) => {
+        console.log(res);
+    }).catch((error) => {
+        if (error.response.data.error_code) {
+            setEnrollErrorStatusCode(error.response.data.error_code);
+        } else {
+            setEnrollErrorStatusCode(-1);
+        }
+        
+    });
+}
+
+export function getAllCoachAndClass(setAllClassNames, setAllCoachNames, studioId) {
+    axios.get(
+        server_url + `api/studios/${studioId}/coach-and-class/`
+    ).then((res) => {
+        setAllClassNames(res.data.class_names);
+        setAllCoachNames(res.data.coach_names);
+    }).catch((error) => {
+        console.log(error)
+    });
 }
 
 export function getListOfStudiosByPaginationUrl(studios, setStudios, studiosPaginationNextUrl, setStudiosPaginationNextUrl) {

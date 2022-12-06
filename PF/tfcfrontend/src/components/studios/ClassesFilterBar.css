@@ -1,0 +1,66 @@
+.classes-filter-bar-container {
+    width: 100%;
+    height: 120%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.classes-filter-bar-form-container {
+    width: 60%;
+}
+
+.classes-filter-time {
+    width: 40%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.classes-filter-time-range-selector {
+    width: 60%;
+    display: flex;
+    flex-flow: column nowrap;
+    row-gap: 1em;
+    margin-left: 1.5em;
+}
+
+.classes-filter-time-range-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.classes-filter-bar-label-select-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.8em;
+}
+
+.classes-filter-bar-label {
+    margin: 0;
+    text-align: right;
+    margin-right: 1em;
+}
+
+.classes-filter-bar-select {
+    margin-right: 1em;
+}
+
+.classes-filter-button-container {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+.classes-filter-reset-button {
+    margin-right: 1em;
+    background-color: #7f7d96;
+}
+
+.classes-filter-reset-button:hover {
+    background-color: #6f6e81;
+}
