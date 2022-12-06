@@ -191,7 +191,7 @@ export function getUserClasses(
     }
 }
 
-export function dropUserClass(classId, token) {
+export function dropUserClass(setDropErrorStatusCode, classId, token) {
     axios({
         method: 'patch',
         url: server_url + `api/studios/classes/${classId}/drop/`,
@@ -201,24 +201,24 @@ export function dropUserClass(classId, token) {
     }).then((res) => {
         console.log(res);
     }).catch((error) => {
-        console.log(error);
+        setDropErrorStatusCode(-1);
     });
 }
 
-export function dropUserClassInstance(classId, date, token) {
+export function dropUserClassInstance(setDropErrorStatusCode, classId, date, token) {
     axios({
         method: 'post',
         url: server_url + `api/studios/classes/${classId}/drop/`,
         headers: {
             Authorization: 'Token ' + token
         },
-        params: {
+        data: {
             date: date
         }
     }).then((res) => {
         console.log(res);
     }).catch((error) => {
-        console.log(error);
+        setDropErrorStatusCode(-1);
     });
 }
 
@@ -257,41 +257,64 @@ export function getListOfStudios(setStudios, params) {
     return {...dateInfo, ...generalInfo, ...otherInfo}
 }
 
-export function getStudioClassSchedule(setClassData, studioId, params) {
+export function getStudioClassSchedule(setClassData, studioId, params, userScheduleStartDate, token) {
     axios.get(
         server_url + `api/studios/${studioId}/classes/`,
         { params: params }
     ).then((res) => {
         const events = res.data.map(_class => createStudioClassData(_class, true));
-        setClassData(events);
+        if (token == null) {
+            setClassData(events);
+        } else {
+            axios.get(server_url + "api/studios/classes/schedule/", {
+                headers: {
+                    Authorization: 'Token ' + token
+                },
+                params: {
+                    weeks: params.weeks,
+                    start_date: userScheduleStartDate
+                }
+            }).then((res) => {
+                const userSchedule = res.data.map(_class => ({...getDateInfo(_class), ...{classId: _class.studio_class}}));
+                // check if user is enrolled in each class
+                events.forEach(_class => {
+                    for (var i = 0; i < userSchedule.length; i++) {
+                        if (_class.classId == userSchedule[i].classId) {
+                            _class.enrolled = true;
+                            break;
+                        }
+                    }
+                });
+                setClassData(events);
+            }).catch((error) => {
+                console.log(error)
+            });
+        }
     }).catch((error) => {
         console.log(error)
     });
 }
 
-export function enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, classId, date, token) {
+export function enrollUserClass(setEnrollErrorStatusCode, classId, date, token) {
+    console.log(date);
     axios({
         method: 'post',
         url: server_url + `api/studios/classes/${classId}/enrol/`,
         headers: {
             Authorization: 'Token ' + token
         },
-        params: {
+        data: {
             date: date
         }
     }).then((res) => {
-        setSuccessModal(true);
+        console.log(res);
     }).catch((error) => {
-        setErrorModal(true);
-        if (error.response.data.error_code == 2) {
-            setErrorMessage("Class is already full.");
-        } else if (error.response.data.error_code == 3) {
-            setErrorMessage("You do not have an active subscription.");
-            setErrorButtonText("Subscribe now");
-            setErrorAction(() => navigateToSub);
-        } else if (error.response.data.error_code == 1) {
-            setErrorMessage("You are already enrolled in this class.");
+        if (error.response.data.error_code) {
+            setEnrollErrorStatusCode(error.response.data.error_code);
+        } else {
+            setEnrollErrorStatusCode(-1);
         }
+        
     });
 }
 

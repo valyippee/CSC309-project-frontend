@@ -6,6 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import './ClassEvent.css';
 import NoticeModal from '../NoticeModal';
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 export const dateToString = (date) => {
     return date.getFullYear() + '-' +
@@ -13,44 +14,95 @@ export const dateToString = (date) => {
       ('0'+ date.getDate()).slice(-2);
 }
 
-const dropClass = (classId, token) => {
-  dropUserClass(classId, token);
-  window.location.reload();
-}
-
-const dropClassInstance = (classId, date, token) => {
-  dropUserClassInstance(classId, date, token);
-  window.location.reload();
-}
-
 export const Event = ({event}) => {
     let {token} = useContext(AuthContext);
     const navigate = useNavigate();
     const navigateToSub = () => {navigate('/')}  // TODO: add subscriptions page link
     const navigateToLogin = () => {navigate("/login")}
+    const navigateToClasses = () => {navigate("/myclasses")}
+    const refresh = () => {window.location.reload()}
 
-    const [showSuccessModal, setSuccessModal] = useState(false);
-    const [successMessage, setSuccessMessage] = useState("");
-    const [showErrorModal, setErrorModal] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [errorButtonText, setErrorButtonText] = useState("");
-    const [errorAction, setErrorAction] = useState()
+    const [showModal, setModal] = useState(false);
+    const [modalMessage, setModalMessage] = useState("");
+    const [modalTitle, setModalTitle] = useState("");
+    const [buttonText, setButtonText] = useState("");
+    const [confirmAction, setConfirmAction] = useState();
+    const [enrollErrorStatusCode, setEnrollErrorStatusCode] = useState();
+    const [dropErrorStatusCode, setDropErrorStatusCode] = useState();
 
-    const enrollClass = () => {
-      if (token == null) {
-        setErrorModal(true);
-        setErrorMessage("You are not logged in.");
-        setErrorButtonText("Log in now");
-        setErrorAction(() => navigateToLogin)
-      } else {
-        setSuccessMessage(`You have been enrolled in ${event.title} as a recurring class.`);
-        enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, event.classId, null, token);
+    useEffect(() => {
+      // error handling when enrolling in a class
+      setModalTitle("Oh no! Something went wrong.");
+      if (enrollErrorStatusCode == 1) {
+        setModalMessage("You are already enrolled in this class.");
+      } else if (enrollErrorStatusCode == 2) {
+        setModalMessage("Class is already full.");
+      } else if (enrollErrorStatusCode == 3) {
+        setModalMessage("You do not have an active subscription.");
+        setButtonText("Subscribe now");
+        setConfirmAction(() => navigateToSub);
+      } else if (enrollErrorStatusCode == 0) {
+        setModalMessage("You are not logged in.");
+        setButtonText("Log in now");
+        setConfirmAction(() => navigateToLogin)
+      } else if (enrollErrorStatusCode == -1) {
+        setModalMessage("An error occured. Please try again.");
       }
+    }, [enrollErrorStatusCode]);
+
+    useEffect(() => {
+      // error handling when dropping a class
+      setModalTitle("Oh no! Something went wrong.");
+      if (enrollErrorStatusCode == 0) {
+        setModalMessage("You are not logged in.");
+        setButtonText("Log in now");
+        setConfirmAction(() => navigateToLogin)
+      } else if (enrollErrorStatusCode == -1) {
+        setModalMessage("An error occured. Please refresh and try again.");
+        setButtonText("Refresh");
+        setConfirmAction(() => refresh)
+      }
+    }, [dropErrorStatusCode]);
+
+    const dropClass = () => {
+      setModalTitle("Oh no! Something went wrong.");
+      if (token == null) {
+        setDropErrorStatusCode(0);
+      } else {
+        setModalMessage("An error occured. Please refresh and try again.");
+        setButtonText("Refresh");
+        setConfirmAction(() => refresh);
+        dropUserClass(setDropErrorStatusCode, event.classId, token);
+      }
+      setModal(true);
     }
     
-    const enrollClassInstance = () => {
-      setSuccessMessage(`You have been enrolled in ${event.title} for ${date}.`);
-      enrollUserClass(setSuccessModal, setErrorModal, setErrorMessage, setErrorButtonText, setErrorAction, navigateToSub, event.classId, dateToString(event.start), token);
+    const dropClassInstance = (date) => {
+      if (token == null) {
+        setDropErrorStatusCode(0);
+      } else {
+        setModalMessage(`You have dropped the ${event.title} class for ${date}. Refresh to see the changes.`);
+        setModalTitle("Dropped!");
+        setButtonText("Refresh");
+        setConfirmAction(() => refresh);
+        dropUserClassInstance(setDropErrorStatusCode, event.classId, date, token);
+      }
+      setModal(true);
+    }
+
+    const enrollClass = (date) => {
+      if (token == null) {
+        setEnrollErrorStatusCode(0);
+      } else {
+        setModalMessage(date 
+          ? `You have been enrolled in ${event.title} for ${date}.`
+          : `You have been enrolled in ${event.title} as a recurring class.`);
+        setModalTitle("Enrolled!");
+        setButtonText("Go to my classes");
+        setConfirmAction(() => navigateToClasses);
+        enrollUserClass(setEnrollErrorStatusCode, event.classId, date, token);
+      }
+      setModal(true);
     }
 
     let EventPopover = (
@@ -78,23 +130,23 @@ export const Event = ({event}) => {
               <button 
                 className="btn btn-lg btn-primary"
                 id="drop-instance" 
-                onClick={() => dropClassInstance(event.classId, dateToString(event.start), token)}>
+                onClick={() => dropClassInstance(dateToString(event.start))}>
                   Drop this class instance
               </button>
               <button 
                 className="btn btn-lg btn-primary"
                 id="drop-class"
-                onClick={() => dropClass(event.classId, token)}>
+                onClick={() => dropClass()}>
                   Drop this recurring class
               </button>
             </div>
           }
-          {event.enrollEnabled &&
+          {event.enrollEnabled && !event.enrolled &&
             <div id='enroll-buttons'>
               <button 
                 className="btn btn-lg btn-primary" 
                 id="enroll-instance"
-                onClick={() => enrollClassInstance()}>
+                onClick={() => enrollClass(dateToString(event.start))}>
                   Enroll in this class instance
               </button>
               <button 
@@ -105,6 +157,11 @@ export const Event = ({event}) => {
                 </button>
             </div>
           }
+          {event.enrollEnabled && event.enrolled &&
+            <div id='enrolled'>
+              <span>You are enrolled in this class.</span>
+            </div>
+          }
         </Popover>
       );
   
@@ -112,18 +169,10 @@ export const Event = ({event}) => {
       <div>
         <div>
           <NoticeModal 
-            showModal={showErrorModal} title={"Oh no!"}
-            onHide={() => setErrorModal(false)} message={errorMessage}
-            buttonText={errorButtonText}
-            onConfirm={errorAction}
-          />
-        </div>
-        <div>
-          <NoticeModal 
-            showModal={showSuccessModal} title={"Enrolled!"}
-            onHide={() => setSuccessModal(false)} message={successMessage}
-            buttonText={"Go to my classes"}
-            onConfirm={() => navigate("/myclasses")}
+            showModal={showModal} title={modalTitle}
+            onHide={() => setModal(false)} message={modalMessage}
+            buttonText={buttonText}
+            onConfirm={confirmAction}
           />
         </div>
         <div>

@@ -19,3 +19,13 @@
 #drop-class, #enroll-class {
     margin-left: 2em;
 }
+
+#enrolled {
+    display: flex;
+    text-align: center;
+}
+#enrolled span {
+    margin: auto;
+    font-style: italic;
+    font-size: 1.5em;
+}

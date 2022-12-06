@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import AuthContext from '../api/AuthContext';
 import Title from "../components/Title";
 import ClassCalendar from '../components/calendar/ClassCalendar';
 import ClassesFilterBar from '../components/studios/ClassesFilterBar';
@@ -13,6 +14,7 @@ import moment from "moment";
 
 const StudioPage = () => {
   let { studio_id } = useParams();
+  let {token} = useContext(AuthContext);  // used to check if user is enrolled in any classes
 
   const [calendarInfo, setCalendarInfo] = useState({date: new Date().setDate(1), view: 'month'})
   const [classData, setClassData] = useState([]);
@@ -59,7 +61,11 @@ const StudioPage = () => {
     }
     // if view is in the past, we don't have to display anything
     if (startOfCalendarView.getMonth() >= today.getMonth() - 1) {
-      getStudioClassSchedule(setClassData, studio_id, dateRangeFilters)
+      getStudioClassSchedule(
+        setClassData, studio_id, dateRangeFilters,
+        startOfCalendarView < today ? dateToString(today) : dateToString(startOfCalendarView),
+        token
+      )
     }
   }
 
