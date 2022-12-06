@@ -165,6 +165,12 @@ export const Event = ({event}) => {
           {event.enrollEnabled && event.enrolled &&
             <div id='enrolled'>
               <span>You are enrolled in this class.</span>
+              <button 
+                  className="btn btn-lg btn-primary"
+                  id="enrolled-button"
+                  onClick={() => navigateToClasses()}>
+                    Go to my classes
+                </button>
             </div>
           }
         </Popover>

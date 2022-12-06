@@ -23,9 +23,17 @@
 #enrolled {
     display: flex;
     text-align: center;
+    flex-flow: column nowrap;
 }
+
 #enrolled span {
     margin: auto;
     font-style: italic;
     font-size: 1.5em;
+}
+
+#enrolled-button {
+    margin: auto;
+    margin-top: 0.5em;
+    font-size: 1.2em;
 }

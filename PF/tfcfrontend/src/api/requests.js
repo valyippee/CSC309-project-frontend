@@ -267,7 +267,8 @@ export function getStudioClassSchedule(setClassData, studioId, params, userSched
                 // check if user is enrolled in each class
                 events.forEach(_class => {
                     for (var i = 0; i < userSchedule.length; i++) {
-                        if (_class.classId == userSchedule[i].classId) {
+                        if (_class.classId == userSchedule[i].classId 
+                                && _class.start.valueOf() === userSchedule[i].start.valueOf()) {
                             _class.enrolled = true;
                             break;
                         }
