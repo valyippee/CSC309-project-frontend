@@ -191,23 +191,9 @@ export function getUserClasses(
     }
 }
 
-export function dropUserClass(setDropErrorStatusCode, classId, token) {
+export function dropUserClass(setDropErrorStatusCode, isInstance, classId, date, token) {
     axios({
-        method: 'patch',
-        url: server_url + `api/studios/classes/${classId}/drop/`,
-        headers: {
-            Authorization: 'Token ' + token
-        }
-    }).then((res) => {
-        console.log(res);
-    }).catch((error) => {
-        setDropErrorStatusCode(-1);
-    });
-}
-
-export function dropUserClassInstance(setDropErrorStatusCode, classId, date, token) {
-    axios({
-        method: 'post',
+        method: isInstance ? 'post' : 'patch',
         url: server_url + `api/studios/classes/${classId}/drop/`,
         headers: {
             Authorization: 'Token ' + token
@@ -218,6 +204,7 @@ export function dropUserClassInstance(setDropErrorStatusCode, classId, date, tok
     }).then((res) => {
         console.log(res);
     }).catch((error) => {
+        console.log(error);
         setDropErrorStatusCode(-1);
     });
 }

@@ -53,39 +53,34 @@ export const Event = ({event}) => {
     useEffect(() => {
       // error handling when dropping a class
       setModalTitle("Oh no! Something went wrong.");
-      if (enrollErrorStatusCode == 0) {
+      if (dropErrorStatusCode == 0) {
         setModalMessage("You are not logged in.");
         setButtonText("Log in now");
         setConfirmAction(() => navigateToLogin)
-      } else if (enrollErrorStatusCode == -1) {
+      } else if (dropErrorStatusCode == -1) {
         setModalMessage("An error occured. Please refresh and try again.");
         setButtonText("Refresh");
         setConfirmAction(() => refresh)
       }
     }, [dropErrorStatusCode]);
-
-    const dropClass = () => {
-      setModalTitle("Oh no! Something went wrong.");
-      if (token == null) {
-        setDropErrorStatusCode(0);
-      } else {
-        setModalMessage("An error occured. Please refresh and try again.");
-        setButtonText("Refresh");
-        setConfirmAction(() => refresh);
-        dropUserClass(setDropErrorStatusCode, event.classId, token);
-      }
-      setModal(true);
-    }
     
-    const dropClassInstance = (date) => {
+    const dropClass = (date, isInstance) => {
       if (token == null) {
         setDropErrorStatusCode(0);
       } else {
-        setModalMessage(`You have dropped the ${event.title} class for ${date}. Refresh to see the changes.`);
+        var message = `You have dropped the ${event.title} class for ${date}. Refresh to see the changes.`;
+        if (!isInstance) {
+          if (!date) {
+            message = `You have dropped all recurring ${event.title} class. Refresh to see the changes.`;
+          } else {
+            message = `You have dropped the recurring ${event.title} class from ${date} onwards. Refresh to see the changes.`;
+          }
+        } 
+        setModalMessage(message);
         setModalTitle("Dropped!");
         setButtonText("Refresh");
         setConfirmAction(() => refresh);
-        dropUserClassInstance(setDropErrorStatusCode, event.classId, date, token);
+        dropUserClass(setDropErrorStatusCode, isInstance, event.classId, date, token);
       }
       setModal(true);
     }
@@ -130,14 +125,20 @@ export const Event = ({event}) => {
               <button 
                 className="btn btn-lg btn-primary"
                 id="drop-instance" 
-                onClick={() => dropClassInstance(dateToString(event.start))}>
+                onClick={() => dropClass(dateToString(event.start), true)}>
                   Drop this class instance
               </button>
               <button 
                 className="btn btn-lg btn-primary"
                 id="drop-class"
-                onClick={() => dropClass()}>
-                  Drop this recurring class
+                onClick={() => dropClass(dateToString(event.start), false)}>
+                  Drop recurring class from this date
+              </button>
+              <button 
+                className="btn btn-lg btn-primary"
+                id="drop-class"
+                onClick={() => dropClass(null, false)}>
+                  Drop all recurring classes
               </button>
             </div>
           }
@@ -153,7 +154,7 @@ export const Event = ({event}) => {
                 className="btn btn-lg btn-primary" 
                 id="enroll-class"
                 onClick={() => enrollClass()}>
-                  Enroll in this recurring class
+                  Enroll in all recurring classes
                 </button>
             </div>
           }
