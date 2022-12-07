@@ -79,6 +79,34 @@ export function putCard(setSuccess, setError, number, exp_month, exp_year, cvc, 
     })
 }
 
+export function getUserSubscription(setUserSubscription, token) {
+    axios.get(server_url + "api/subscriptions/mysubscription/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status == 200) {
+            setUserSubscription(res.data)
+        } else {
+            setUserSubscription(false)
+        }
+    });
+}
+
+export function cancelUserSubscription(setCancelled, setUserSubscription, token) {
+    axios({
+        method: 'post',
+        url: server_url + 'api/subscriptions/cancel/',
+        headers: {
+            Authorization: 'Token ' + token
+        }
+    }).then((res) => {
+        setCancelled(true)
+        setUserSubscription(false)
+    });
+}
+
+
 export function getSubscriptions(setSubscriptions) {
     axios.get(server_url + "api/subscriptions/")
     .then((res) => {
