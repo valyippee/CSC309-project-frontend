@@ -1,32 +1,33 @@
-import Modal from "react-bootstrap/Modal";
-import "./NoticeModal.css";
+import Modal from 'react-bootstrap/Modal';
+import './NoticeModal.css';
 
 function NoticeModal(props) {
+
   return (
     <>
       <Modal show={props.showModal} onHide={props.onHide}>
         <Modal.Header closeButton>
           <Modal.Title>{props.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body id="modalMessage">{props.message}</Modal.Body>
-        <div className="modalButtons">
-          {props.showCancelButton && (
-            <button
-              id="cancelButton"
-              className="btn btn-lg btn-primary"
-              onClick={props.onHide}
-            >
-              Cancel
-            </button>
-          )}
+        <Modal.Body id='modalMessage'>{props.message}</Modal.Body>
+        <div className='modalButtons'>
           <button
-            id="confirmButton"
+            id='closeButton'
             className="btn btn-lg btn-primary"
-            color="#403E56"
-            onClick={props.onConfirm}
-          >
-            {props.buttonText}
+            onClick={props.onHide}>
+            Close
           </button>
+          {props.buttonText &&
+            <>
+              <button 
+                id='confirmButton'
+                className="btn btn-lg btn-primary"
+                color='#403E56'
+                onClick={props.onConfirm}>
+              {props.buttonText}
+              </button>
+            </>
+          }
         </div>
       </Modal>
     </>

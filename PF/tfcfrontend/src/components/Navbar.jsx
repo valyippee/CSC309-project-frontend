@@ -46,7 +46,7 @@ function Header() {
 
                     <Nav className="navbar-items flex-grow-1 pe-3">
                         
-                        <Nav.Link className="nav-item" href="#action1">Studios</Nav.Link>
+                        <Nav.Link className="nav-item" href="/">Studios</Nav.Link>
                         <Nav.Link className="nav-item" href="/subscriptions">Subscriptions</Nav.Link>
 
                         {token && 

@@ -9,7 +9,6 @@ import NoticeModal from "../components/NoticeModal";
 import { useNavigate } from "react-router-dom";
 
 const SubscriptionsPage = () => {
-  const [loading, setLoading] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
   const [subscriptions, setSubscriptions] = useState([]);
@@ -52,7 +51,6 @@ const SubscriptionsPage = () => {
             buttonText: "Continue",
             onConfirm: reloadPage,
             onHide: reloadPage,
-            showCancelButton: false,
         });
       } else if (successInfo.success_code === 1) { // USER CHANGED SUBSCRIPTION PLAN
         setModalInfo({
@@ -61,7 +59,6 @@ const SubscriptionsPage = () => {
             buttonText: "Continue",
             onConfirm: reloadPage,
             onHide: reloadPage,
-            showCancelButton: false
         });
       } else if (successInfo.success_code === 2) {
         setModalInfo({
@@ -70,7 +67,6 @@ const SubscriptionsPage = () => {
             buttonText: "Continue",
             onConfirm: reloadPage,
             onHide: reloadPage,
-            showCancelButton: false
         });
       }
       setDisplayModal(true);

@@ -8,11 +8,10 @@
     font-size: 1.2rem;
 }
 
-#cancelButton {
+#closeButton {
     background-color: grey;
 }
 
-#confirmButton {
-    margin-left: 1em;
+#confirmButton, #closeButton {
     margin-right: 1em;
 }
