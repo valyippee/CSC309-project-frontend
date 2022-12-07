@@ -220,7 +220,7 @@ export function getStudioInfo(setStudioInfo, studioId) {
 
 export function getListOfStudios(setStudios, location, params, setStudiosPaginationNextUrl) {
     const locationPathString = location.lng + "," + location.lat + "/"
-
+    
     axios.get(server_url + "api/studios/list/" + locationPathString, {params: params})
     .then((res) => {
         setStudiosPaginationNextUrl(res.data.next)

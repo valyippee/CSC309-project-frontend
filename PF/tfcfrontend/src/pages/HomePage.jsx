@@ -1,10 +1,11 @@
-import {React, useState, useEffect} from 'react'
+import {React, useState, useEffect, useContext} from 'react'
 import "./HomePage.css"
 import Title from '../components/Title';
 import Map from "../components/Map"
 import StudiosFilterBar from '../components/studios/StudiosFilterBar';
 import { getListOfStudios, getListOfStudiosByPaginationUrl } from '../api/requests'
 import { StudioCard } from '../components/studios/StudioCard';
+import SearchContext from '../api/SearchContext';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
@@ -13,10 +14,10 @@ function Home() {
   const [studios, setStudios] = useState([])
   const [selectedFilterTags, setSelectedFilterTags] = useState({})
   const [studiosPaginationNextUrl, setStudiosPaginationNextUrl] = useState("")
+
+  let {searchString} = useContext(SearchContext)
   
   useEffect(() => {
-    getListOfStudios(setStudios, currentLocation, {}, setStudiosPaginationNextUrl)
-
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         setCurrentLocation({lat: position.coords.latitude, lng: position.coords.longitude}) // USERS CURRENT LOCATION COORDS
@@ -25,8 +26,18 @@ function Home() {
   }, [])
 
   useEffect(() => {
-    getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl)
+    if (searchString === null) { // Not navigated by search
+      getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl)
+    }
   }, [currentLocation, selectedFilterTags])
+
+  useEffect(() => {
+    if (searchString !== "") { // Get list of studios by search string
+      getListOfStudios(setStudios, currentLocation, {"search": searchString}, setStudiosPaginationNextUrl)
+    } else { // Search string is empty so return all studios
+      getListOfStudios(setStudios, currentLocation, {}, setStudiosPaginationNextUrl)
+    }
+  }, [searchString])
 
   const handleStudioCardsScroll = (e) => {
     const bottom = Math.abs(e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight) <= 200

@@ -1,7 +1,8 @@
-import {React, useContext, useState, useEffect} from 'react'
+import {React, useContext, useState, useEffect, useRef} from 'react'
 import './Navbar.css'
 
 import AuthContext from '../api/AuthContext'
+import SearchContext from "../api/SearchContext"
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -10,6 +11,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { getAvatar } from '../api/requests';
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
 // Navbar from https://react-bootstrap.github.io/components/navbar/#offcanvas
@@ -17,8 +19,13 @@ import { getAvatar } from '../api/requests';
 // TODO replace hrefs
 
 function Header() {
+    const searchBarRef = useRef()
+
+    const location = useLocation()
+    const navigate = useNavigate()
 
     let {token, logout} = useContext(AuthContext)
+    let {setSearchString} = useContext(SearchContext)
 
     let [avatar, setAvatar] = useState()
 
@@ -26,6 +33,16 @@ function Header() {
         getAvatar(setAvatar, token)
     }, [token])
 
+    const handleSearchButtonClick = (e) => {
+        e.preventDefault()
+        let searchString = searchBarRef.current.value
+        if (searchString !== "") {
+            if (location.pathname !== "/") {
+                navigate("/")
+            }
+        }
+        setSearchString(searchString)
+    }
 
     return (
         <>
@@ -39,9 +56,9 @@ function Header() {
 
                     <Offcanvas.Body>
 
-                    <Form className="d-flex">
-                        <Form.Control type="search" placeholder="Search Studios" className="me-2 search-bar" aria-label="Search"/>
-                        <Button variant="secondary">Search</Button>
+                    <Form className="d-flex" onSubmit={(e) => handleSearchButtonClick(e)}>
+                        <Form.Control type="search" placeholder="Search Studios" className="me-2 search-bar" aria-label="Search" ref={searchBarRef}/>
+                        <Button variant="secondary" onClick={(e) => handleSearchButtonClick(e)}>Search</Button>
                     </Form>
 
                     <Nav className="navbar-items flex-grow-1 pe-3">
