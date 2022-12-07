@@ -33,7 +33,8 @@ function Header() {
         getAvatar(setAvatar, token)
     }, [token])
 
-    const handleSearchButtonClick = () => {
+    const handleSearchButtonClick = (e) => {
+        e.preventDefault()
         let searchString = searchBarRef.current.value
         if (searchString !== "") {
             if (location.pathname !== "/") {
@@ -55,9 +56,9 @@ function Header() {
 
                     <Offcanvas.Body>
 
-                    <Form className="d-flex">
+                    <Form className="d-flex" onSubmit={(e) => handleSearchButtonClick(e)}>
                         <Form.Control type="search" placeholder="Search Studios" className="me-2 search-bar" aria-label="Search" ref={searchBarRef}/>
-                        <Button variant="secondary" onClick={() => handleSearchButtonClick()}>Search</Button>
+                        <Button variant="secondary" onClick={(e) => handleSearchButtonClick(e)}>Search</Button>
                     </Form>
 
                     <Nav className="navbar-items flex-grow-1 pe-3">
