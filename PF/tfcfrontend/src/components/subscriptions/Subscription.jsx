@@ -14,6 +14,7 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
   const subscriptionStatusCodes = getSubscriptionStatusCodes()
 
   useEffect(() => {
+    setLoading(false)
     if (status === subscriptionStatusCodes["SUBSCRIBE"]) {
       setCtaButtonString("Subscribe")
     } else if (status === subscriptionStatusCodes["CHANGE"]) {
@@ -21,7 +22,7 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
     } else if (status === subscriptionStatusCodes["CANCEL"]) {
       setCtaButtonString("Cancel")
     }
-  }, [])
+  }, [status])
 
   const handleButtonClick = (e) => {
     setLoading(true)
