@@ -1,9 +1,13 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
+import AuthContext from '../../api/AuthContext'
 import './Subscription.css'
 import { getSubscriptionStatusCodes } from '../../utils/utils'
+import { subscribe, changeSubscription, cancelSubscription } from '../../api/requests'
 
-function Subscription({subscription, status}) {
+function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
   const [ctaButtonString, setCtaButtonString] = useState("Subscribe")
+
+  let {token} = useContext(AuthContext)
 
   useEffect(() => {
     const subscriptionStatusCodes = getSubscriptionStatusCodes()
@@ -16,6 +20,16 @@ function Subscription({subscription, status}) {
     }
   }, [])
 
+  const handleButtonClick = (e) => {
+    const subscriptionStatusCodes = getSubscriptionStatusCodes()
+    if (status === subscriptionStatusCodes["SUBSCRIBE"]) {
+      subscribe(subscription, token, setSuccessInfo, setErrorInfo)
+    } else if (status === subscriptionStatusCodes["CHANGE"]) {
+      changeSubscription(subscription, token, setSuccessInfo, setErrorInfo)
+    } else if (status === subscriptionStatusCodes["CANCEL"]) {
+      cancelSubscription(token, setSuccessInfo, setErrorInfo)
+    }
+  }
 
   return (
     <div className="card subscription">
@@ -24,7 +38,7 @@ function Subscription({subscription, status}) {
             {subscription.plan===0 && <p className="card-text mb-4 mt-auto">Monthly</p>}
             {subscription.plan===1 && <p className="card-text mb-4 mt-auto">Yearly</p>}
             <p className="card-text mb-4 mt-auto">${subscription.price}</p>
-            <a href="#" className="btn btn-primary btn-lg mt-auto">{ctaButtonString}</a>
+            <button onClick={handleButtonClick} className="btn btn-primary btn-lg mt-auto">{ctaButtonString}</button>
         </div>
     </div>
   )
