@@ -93,7 +93,7 @@ export function getFuturePayments(setPayments, token) {
         },
     }).then((res) => {
         if (res.status == 200) {
-            setPayments(res.data.data.future)
+            setPayments(res.data.data.history)
         }
     });
 }
