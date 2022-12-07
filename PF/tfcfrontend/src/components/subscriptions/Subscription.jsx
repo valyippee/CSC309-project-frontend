@@ -3,8 +3,10 @@ import AuthContext from '../../api/AuthContext'
 import './Subscription.css'
 import { getSubscriptionStatusCodes } from '../../utils/utils'
 import { subscribe, changeSubscription, cancelSubscription } from '../../api/requests'
+import Spinner from 'react-bootstrap/Spinner';
 
 function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
+  const [loading, setLoading] = useState(false)
   const [ctaButtonString, setCtaButtonString] = useState("Subscribe")
 
   let {token} = useContext(AuthContext)
@@ -20,7 +22,12 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
     }
   }, [])
 
+  useEffect(() => {
+    setLoading(false)
+  }, [subscription])
+
   const handleButtonClick = (e) => {
+    setLoading(true)
     const subscriptionStatusCodes = getSubscriptionStatusCodes()
     if (status === subscriptionStatusCodes["SUBSCRIBE"]) {
       subscribe(subscription, token, setSuccessInfo, setErrorInfo)
@@ -38,7 +45,7 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
             {subscription.plan===0 && <p className="card-text mb-4 mt-auto">Monthly</p>}
             {subscription.plan===1 && <p className="card-text mb-4 mt-auto">Yearly</p>}
             <p className="card-text mb-4 mt-auto">${subscription.price}</p>
-            <button onClick={handleButtonClick} className="btn btn-primary btn-lg mt-auto">{ctaButtonString}</button>
+            <button onClick={handleButtonClick} className="btn btn-primary btn-lg mt-auto">{loading ? (<Spinner animation="border" />) : ctaButtonString}</button>
         </div>
     </div>
   )

@@ -9,6 +9,7 @@ import NoticeModal from "../components/NoticeModal";
 import { useNavigate } from "react-router-dom";
 
 const SubscriptionsPage = () => {
+  const [loading, setLoading] = useState(false);
   const [displayModal, setDisplayModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({});
   const [subscriptions, setSubscriptions] = useState([]);
@@ -30,6 +31,7 @@ const SubscriptionsPage = () => {
   };
 
   const reloadPage = () => {
+    getSubscriptions(setSubscriptions);
     getUserSubscription(setUserSubscription, token);
     setDisplayModal(false);
     setSuccessInfo(null);
