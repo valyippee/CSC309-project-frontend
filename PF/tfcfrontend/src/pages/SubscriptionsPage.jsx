@@ -31,6 +31,7 @@ const SubscriptionsPage = () => {
   };
 
   const reloadPage = () => {
+    setUserSubscription(null)
     getSubscriptions(setSubscriptions);
     getUserSubscription(setUserSubscription, token);
     setDisplayModal(false);

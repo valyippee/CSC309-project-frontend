@@ -22,10 +22,6 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
     }
   }, [])
 
-  useEffect(() => {
-    setLoading(false)
-  }, [subscription])
-
   const handleButtonClick = (e) => {
     setLoading(true)
     const subscriptionStatusCodes = getSubscriptionStatusCodes()
