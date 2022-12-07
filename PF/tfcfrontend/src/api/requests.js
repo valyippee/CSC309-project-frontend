@@ -86,6 +86,65 @@ export function getSubscriptions(setSubscriptions) {
     });
 }
 
+export function getUserSubscription(setUserSubscription, token) {
+    axios.get(server_url + "api/subscriptions/mysubscription/", {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    })
+    .then(res => {
+        setUserSubscription(res.data)
+    })
+}
+
+export function subscribe(subscriptionPlan, token, setSuccessInfo, setErrorInfo) {
+    axios.post(server_url + "api/subscriptions/" + subscriptionPlan.id + "/subscribe/", {}, {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    })
+    .then(res => {
+        setSuccessInfo({"success_code": 0, "subscription": subscriptionPlan}) // Successfully Subscribed
+    })
+    .catch(err => {
+        if (err.response.status === 401) {
+            setErrorInfo({"error_code": 0})
+        }
+    })
+}
+
+export function changeSubscription(subscriptionPlan, token, setSuccessInfo, setErrorInfo) {
+    axios.put(server_url + "api/subscriptions/" + subscriptionPlan.id + "/subscribe/", {}, {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    })
+    .then(res => {
+        setSuccessInfo({"success_code": 1, "subscription": subscriptionPlan}) // Successfully Changed Subscription Plan
+    })
+    .catch(err => {
+        if (err.response.status === 401) {
+            setErrorInfo({"error_code": 0})
+        }
+    })
+}
+
+export function cancelSubscription(token, setSuccessInfo, setErrorInfo) {
+    axios.post(server_url + "api/subscriptions/cancel/", {}, {
+        headers: {
+            Authorization: 'Token ' + token,
+        }
+    })
+    .then(res => {
+        setSuccessInfo({"success_code": 2}) // Successfully Canceled Subscription Plan
+    })
+    .catch(err => {
+        if (err.response.status === 401) {
+            setErrorInfo({"error_code": 0})
+        }
+    })
+}
+
 export function getFuturePayments(setPayments, token) {
     axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
