@@ -114,21 +114,27 @@ export function getSubscriptions(setSubscriptions) {
     });
 }
 
-export function getFuturePayments(setPayments, token) {
+export function getFuturePayments(payments, setPayments, offset, token) {
 
-    let today = new Date().toISOString()
-    today = today.substring(0, today.length-5);
+    let curr = new Date()
+
+    if (payments.length == 0) {
+        curr = curr.toISOString()
+        curr = curr.substring(0, curr.length-5);
+    } else {
+        curr = payments[payments.length-1]['datetime']
+    }
 
     axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
             Authorization: 'Token ' + token
         },
         params: {
-            start_datetime: today
+            start_datetime: curr
         }
     }).then((res) => {
         if (res.status == 200) {
-            setPayments(res.data.data.future)
+            setPayments([...payments, ...res.data.data.future])
         }
     });
 }
