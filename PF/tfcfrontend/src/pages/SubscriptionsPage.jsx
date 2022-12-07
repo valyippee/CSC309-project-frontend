@@ -96,6 +96,7 @@ const SubscriptionsPage = () => {
         {userSubscription === null
           ? subscriptions.map((subscription) => (
               <Subscription
+                key={subscription.id}
                 subscription={subscription}
                 status={getSubscriptionStatusCodes()["SUBSCRIBE"]}
                 setSuccessInfo={setSuccessInfo}

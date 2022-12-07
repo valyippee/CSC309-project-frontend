@@ -93,7 +93,6 @@ export function getUserSubscription(setUserSubscription, token) {
         }
     })
     .then(res => {
-        console.log(res.data)
         setUserSubscription(res.data)
     })
 }
