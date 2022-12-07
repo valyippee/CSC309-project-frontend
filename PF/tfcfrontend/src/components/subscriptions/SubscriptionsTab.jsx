@@ -17,7 +17,7 @@ function SubscriptionsTab() {
 
   const cancelSubscription = () => {
     cancelUserSubscription(setCancelled, setUserSubscription, token)
-}
+  }
 
   return (
     <div className="user-subscriptions-container">

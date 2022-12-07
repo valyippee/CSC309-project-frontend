@@ -115,13 +115,20 @@ export function getSubscriptions(setSubscriptions) {
 }
 
 export function getFuturePayments(setPayments, token) {
+
+    let today = new Date().toISOString()
+    today = today.substring(0, today.length-5);
+
     axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
             Authorization: 'Token ' + token
         },
+        params: {
+            start_datetime: today
+        }
     }).then((res) => {
         if (res.status == 200) {
-            setPayments(res.data.data.history)
+            setPayments(res.data.data.future)
         }
     });
 }
