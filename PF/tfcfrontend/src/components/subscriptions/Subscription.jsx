@@ -11,8 +11,9 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
 
   let {token} = useContext(AuthContext)
 
+  const subscriptionStatusCodes = getSubscriptionStatusCodes()
+
   useEffect(() => {
-    const subscriptionStatusCodes = getSubscriptionStatusCodes()
     if (status === subscriptionStatusCodes["SUBSCRIBE"]) {
       setCtaButtonString("Subscribe")
     } else if (status === subscriptionStatusCodes["CHANGE"]) {
@@ -24,7 +25,6 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
 
   const handleButtonClick = (e) => {
     setLoading(true)
-    const subscriptionStatusCodes = getSubscriptionStatusCodes()
     if (status === subscriptionStatusCodes["SUBSCRIBE"]) {
       subscribe(subscription, token, setSuccessInfo, setErrorInfo)
     } else if (status === subscriptionStatusCodes["CHANGE"]) {
@@ -41,6 +41,9 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
             {subscription.plan===0 && <p className="card-text mb-4 mt-auto">Monthly</p>}
             {subscription.plan===1 && <p className="card-text mb-4 mt-auto">Yearly</p>}
             <p className="card-text mb-4 mt-auto">${subscription.price}</p>
+            {status === subscriptionStatusCodes["CANCEL"] && (
+              <p className="card-currently-subscribed-text">You are subscribed to this plan.</p>
+            )}
             <button onClick={handleButtonClick} className="btn btn-primary btn-lg mt-auto">{loading ? (<Spinner animation="border" />) : ctaButtonString}</button>
         </div>
     </div>
