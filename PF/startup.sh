@@ -19,3 +19,5 @@ source venv/bin/activate
 # frontend startup
 cd tfcfrontend
 npm install
+
+cd ..

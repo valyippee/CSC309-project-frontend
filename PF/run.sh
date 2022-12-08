@@ -4,3 +4,5 @@
 # run frontend server
 cd tfcfrontend
 npm start
+
+cd ..
