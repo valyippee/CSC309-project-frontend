@@ -12,22 +12,46 @@ export function getProfile(setProfile, token) {
     });
 }
 
-export function patchProfile(setProfile, email, first_name, last_name, avatar, phone_number, token) {
-    axios.patch(server_url + "api/accounts/profile/", {
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        phone_number: phone_number,
-        avatar: avatar,
-    },
-    {
-        headers: {
-            Authorization: 'Token ' + token,
-            'Content-Type': 'multipart/form-data'
-        }
-    }).then((res) => {
-        setProfile(res.data)
-    })
+export function patchProfile(setProfile, setSuccess, email, first_name, last_name, avatar, phone_number, token) {
+    if (avatar) {
+        axios.patch(server_url + "api/accounts/profile/", {
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+            avatar: avatar,
+        },
+        {
+            headers: {
+                Authorization: 'Token ' + token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                setProfile(res.data)
+                setSuccess(true)
+            }
+        })
+    }
+    else {
+        axios.patch(server_url + "api/accounts/profile/", {
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+        },
+        {
+            headers: {
+                Authorization: 'Token ' + token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                setProfile(res.data)
+                setSuccess(true)
+            }
+        })
+    }
 }
 
 export function getAvatar(setAvatar, token) {

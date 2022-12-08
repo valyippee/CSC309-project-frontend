@@ -1,4 +1,4 @@
-import {React, useContext, authContext} from 'react'
+import {React, useContext, authContext, useState} from 'react'
 import './Profile.css'
 import { patchProfile } from '../../api/requests'
 import AuthContext from '../../api/AuthContext'
@@ -6,6 +6,8 @@ import AuthContext from '../../api/AuthContext'
 function Profile(props) {
 
     let {token} = useContext(AuthContext)
+
+    let [success, setSuccess] = useState(false)
 
     const onChange = (e) => {
         props.setUser((prevState) => ({
@@ -28,10 +30,10 @@ function Profile(props) {
 
         // If they changed avatar, send the new avatar
         if ('new_avatar' in props.user) {
-            patchProfile(props.setUser, user.email, user.first_name, user.last_name, user.new_avatar, user.phone_number, token)
+            patchProfile(props.setUser, setSuccess, user.email, user.first_name, user.last_name, user.new_avatar, user.phone_number, token)
         }
         else {
-            patchProfile(props.setUser, user.email, user.first_name, user.last_name, user.avatar, user.phone_number, token)
+            patchProfile(props.setUser, setSuccess, user.email, user.first_name, user.last_name, null, user.phone_number, token)
         }
 
 
@@ -50,6 +52,10 @@ function Profile(props) {
 
                 {!props.user.avatar && <img className="avatar" src={require("../../images/default.png")} alt="avatar"></img>}
                 {props.user.avatar && <img className="avatar" src={props.user.avatar} alt="avatar"></img>}
+                
+                <div>
+                    {success && <p className='success-profile'>Successfully changed account details.</p>}
+                </div>
 
                 <div className="form-group row">
                     <label htmlFor="email" className="col-sm-2 col-form-label col-form-label-md">Email Address:</label>
