@@ -1,22 +1,42 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
-import { getSubscriptions } from '../../api/requests'
-import Subscription from './Subscription'
-import './Subscription.css'
+import AuthContext from '../../api/AuthContext'
+import { cancelUserSubscription, getUserSubscription } from '../../api/requests'
+import UserSubscription from './UserSubscription'
+import './UserSubscription.css'
 
 function SubscriptionsTab() {
 
-  let [subscriptions, setSubscriptions] = useState([])
+  let {token} = useContext(AuthContext)
+  let [userSubscription, setUserSubscription] = useState(false)
+  let [cancelled, setCancelled] = useState(false)
 
   useEffect(() => {
-    getSubscriptions(setSubscriptions)
-}, [])
+    getUserSubscription(setUserSubscription, token)
+  }, [token])
+
+  const cancelSubscription = () => {
+    cancelUserSubscription(setCancelled, setUserSubscription, token)
+  }
 
   return (
-    <div className="subscriptions-container d-flex align-items-stretch ">
-      {subscriptions.map((subscription) => (
-        <Subscription key={subscription.id} subscription={subscription}/>
-      ))}
+    <div className="user-subscriptions-container">
+        {userSubscription ?
+        <h2 className="title">Current Plan</h2> 
+        : 
+        <h2 className="no-sub">You do not have a subscription.</h2>}
+
+        {cancelled && <h2 className="sub-cancelled">Your subscription has been successfully cancelled.</h2>}
+
+        {userSubscription ?
+        <div className="user-subscription-card-container">
+          <UserSubscription subscription={userSubscription} cancelSubscription={cancelSubscription}/>
+        </div>
+        :
+        <div className="subscriptions-link">
+        <a href="/subscriptions" className="btn btn-primary btn-lg mt-auto">See all subscriptions</a>
+        </div>
+        }
     </div>
   )
 }

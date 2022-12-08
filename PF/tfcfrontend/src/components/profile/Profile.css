@@ -21,9 +21,14 @@
     width: 150px !important;
     height: 150px !important;
     border-radius: 50%;
+    margin-bottom: 1rem;
 }
 
 .avatar-form {
     justify-content: center;
     text-align: center;
+}
+
+.success-profile {
+    color: green;
 }

@@ -12,22 +12,46 @@ export function getProfile(setProfile, token) {
     });
 }
 
-export function patchProfile(setProfile, email, first_name, last_name, avatar, phone_number, token) {
-    axios.patch(server_url + "api/accounts/profile/", {
-        email: email,
-        first_name: first_name,
-        last_name: last_name,
-        phone_number: phone_number,
-        avatar: avatar,
-    },
-    {
-        headers: {
-            Authorization: 'Token ' + token,
-            'Content-Type': 'multipart/form-data'
-        }
-    }).then((res) => {
-        setProfile(res.data)
-    })
+export function patchProfile(setProfile, setSuccess, email, first_name, last_name, avatar, phone_number, token) {
+    if (avatar) {
+        axios.patch(server_url + "api/accounts/profile/", {
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+            avatar: avatar,
+        },
+        {
+            headers: {
+                Authorization: 'Token ' + token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                setProfile(res.data)
+                setSuccess(true)
+            }
+        })
+    }
+    else {
+        axios.patch(server_url + "api/accounts/profile/", {
+            email: email,
+            first_name: first_name,
+            last_name: last_name,
+            phone_number: phone_number,
+        },
+        {
+            headers: {
+                Authorization: 'Token ' + token,
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then((res) => {
+            if (res.status === 200) {
+                setProfile(res.data)
+                setSuccess(true)
+            }
+        })
+    }
 }
 
 export function getAvatar(setAvatar, token) {
@@ -79,6 +103,34 @@ export function putCard(setSuccess, setError, number, exp_month, exp_year, cvc, 
     })
 }
 
+export function getUserSubscription(setUserSubscription, token) {
+    axios.get(server_url + "api/subscriptions/mysubscription/", {
+        headers: {
+            Authorization: 'Token ' + token
+        },
+    }).then((res) => {
+        if (res.status === 200) {
+            setUserSubscription(res.data)
+        } else {
+            setUserSubscription(false)
+        }
+    });
+}
+
+export function cancelUserSubscription(setCancelled, setUserSubscription, token) {
+    axios({
+        method: 'post',
+        url: server_url + 'api/subscriptions/cancel/',
+        headers: {
+            Authorization: 'Token ' + token
+        }
+    }).then((res) => {
+        setCancelled(true)
+        setUserSubscription(false)
+    });
+}
+
+
 export function getSubscriptions(setSubscriptions) {
     axios.get(server_url + "api/subscriptions/")
     .then((res) => {
@@ -86,15 +138,30 @@ export function getSubscriptions(setSubscriptions) {
     });
 }
 
-export function getUserSubscription(setUserSubscription, token) {
-    axios.get(server_url + "api/subscriptions/mysubscription/", {
+
+export function getFuturePayments(payments, setPayments, offset, token) {
+
+    let curr = new Date()
+
+    if (payments.length === 0) {
+        curr = curr.toISOString()
+        curr = curr.substring(0, curr.length-5);
+    } else {
+        curr = payments[payments.length-1]['datetime']
+    }
+
+    axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
-            Authorization: 'Token ' + token,
+            Authorization: 'Token ' + token
+        },
+        params: {
+            start_datetime: curr
         }
-    })
-    .then(res => {
-        setUserSubscription(res.data)
-    })
+    }).then((res) => {
+        if (res.status === 200) {
+            setPayments([...payments, ...res.data.data.future])
+        }
+    });
 }
 
 export function subscribe(subscriptionPlan, token, setSuccessInfo, setErrorInfo) {
@@ -145,25 +212,13 @@ export function cancelSubscription(token, setSuccessInfo, setErrorInfo) {
     })
 }
 
-export function getFuturePayments(setPayments, token) {
-    axios.get(server_url + "api/accounts/paymenthistory/", {
-        headers: {
-            Authorization: 'Token ' + token
-        },
-    }).then((res) => {
-        if (res.status == 200) {
-            setPayments(res.data.data.future)
-        }
-    });
-}
-
 export function getPaymentHistory(setPayments, token) {
     axios.get(server_url + "api/accounts/paymenthistory/", {
         headers: {
             Authorization: 'Token ' + token
         },
     }).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             setPayments(res.data.data.history)
         }
     });
@@ -200,7 +255,7 @@ function getGeneralClassInfo(_class) {
     const otherInfo = {
         location: _class.studio_name,
         enrollEnabled: enrollEnabled,
-        classCancelled: _class.status == 2,
+        classCancelled: _class.status === 2,
         isRecurring: _class.is_recurring
     }
     return {...dateInfo, ...generalInfo, ...otherInfo}
@@ -327,7 +382,7 @@ export function getStudioClassSchedule(setClassData, studioId, params, userSched
                 // check if user is enrolled in each class
                 events.forEach(_class => {
                     for (var i = 0; i < userSchedule.length; i++) {
-                        if (_class.classId == userSchedule[i].classId 
+                        if (_class.classId === userSchedule[i].classId 
                                 && _class.start.valueOf() === userSchedule[i].start.valueOf()) {
                             _class.enrolled = true;
                             break;
