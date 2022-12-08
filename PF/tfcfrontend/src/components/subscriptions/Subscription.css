@@ -19,24 +19,3 @@
 .card.user-subscription {
     border: 0 !important;
 }
-
-.user-subscriptions-container h2 {
-    padding-top: 1rem;
-    padding-bottom: 0rem;
-}
-
-.sub-cancelled {
-    color: green;
-    font-size: 1.5rem;
-    padding-bottom: 1rem !important;
-}
-
-.subscriptions-link {
-    text-align: center;
-    padding-bottom: 1rem;
-}
-
-.user-subscriptions-container .no-sub {
-    font-size: 1.5rem;
-    padding-bottom: 1rem;
-}

@@ -8,14 +8,17 @@ import Navbar from './components/Navbar'
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import { AuthProvider } from './api/AuthContext'
+import { SearchProvider } from './api/SearchContext';
 import AccountPage from './pages/AccountPage';
 import MyClassesPage from './pages/MyClassesPage';
 import StudioPage from "./pages/StudioPage"
+import SubscriptionsPage from './pages/SubscriptionsPage';
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+      <SearchProvider>
       <Navbar/>
         <Routes>
             <Route path='/' element={<HomePage />}></Route>
@@ -24,7 +27,9 @@ function App() {
             <Route path='/accounts/:tab' element={<AccountPage/>}></Route>
             <Route path='/myclasses/' element={<MyClassesPage/>}></Route>
             <Route path='/studio/:studio_id' element={<StudioPage/>}></Route>
+            <Route path='/subscriptions/' element={<SubscriptionsPage/>}></Route>
         </Routes>
+      </SearchProvider>
       </AuthProvider>
     </BrowserRouter>
   );
