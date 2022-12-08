@@ -1,2 +1,6 @@
+# run backend server
+./tfcbackend/run.sh
+
+# run frontend server
 cd tfcfrontend
-./run-frontend.sh
+npm start
