@@ -1,5 +1,5 @@
 # run backend server
-./tfcbackend/run.sh
+./tfcbackend/run.sh &
 
 # run frontend server
 cd tfcfrontend
