@@ -8,7 +8,6 @@ export default function ClassCalendar(props) {
 
     const eventStyleGetter = (event) => { 
         var backgroundColor = "#7f7d96";
-        console.log(event)
         if (event.classCancelled && event.start < new Date()) {
             backgroundColor = '#808080';
         } else if (event.end > new Date()) {

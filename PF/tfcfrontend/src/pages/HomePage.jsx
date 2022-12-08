@@ -53,7 +53,7 @@ function Home() {
         <div className="studio-cards-container" onScroll={(e) => {handleStudioCardsScroll(e)}}>
           <Row style={{width: "100%"}}>
             {studios.map((studio) => (
-              <Col xs={12} sm={6} md={6} lg={6} xl={6} xxl={4}>
+              <Col key={studio.id} xs={12} sm={6} md={6} lg={6} xl={6} xxl={4}>
                 <StudioCard key={studio.id} studio={studio} />
               </Col>
             ))}

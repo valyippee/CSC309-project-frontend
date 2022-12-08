@@ -17,7 +17,7 @@ export const dateToString = (date) => {
 export const Event = ({event}) => {
     let {token} = useContext(AuthContext);
     const navigate = useNavigate();
-    const navigateToSub = () => {navigate('/')}  // TODO: add subscriptions page link
+    const navigateToSub = () => {navigate('/subscriptions')}
     const navigateToLogin = () => {navigate("/login")}
     const navigateToClasses = () => {navigate("/myclasses")}
     const refresh = () => {window.location.reload()}
