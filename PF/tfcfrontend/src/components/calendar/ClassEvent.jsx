@@ -119,6 +119,11 @@ export const Event = ({event}) => {
                 <strong>Total Class Capacity: </strong>{event.capacity} <br/>
               </>
             }
+            {event.classCancelled && event.start < new Date() &&
+              <div id='cancelled'>
+              <span>This class was cancelled.</span><br/>
+            </div>
+            }
           </span>
           {event.end > new Date() && !event.enrollEnabled &&
             <div id='drop-buttons'>

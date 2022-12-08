@@ -7,8 +7,15 @@ export default function ClassCalendar(props) {
     const localizer = momentLocalizer(moment);
 
     const eventStyleGetter = (event) => { 
+        var backgroundColor = "#7f7d96";
+        console.log(event)
+        if (event.classCancelled && event.start < new Date()) {
+            backgroundColor = '#808080';
+        } else if (event.end > new Date()) {
+            backgroundColor = '#403E56';
+        }
         var style = { 
-          backgroundColor: event.end > new Date() ? "#403E56" : "#7f7d96",
+          backgroundColor: backgroundColor,
         }; 
         return { style: style }; 
     }; 

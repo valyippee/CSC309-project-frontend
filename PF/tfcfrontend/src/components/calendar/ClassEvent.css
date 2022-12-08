@@ -20,13 +20,13 @@
     margin-left: 2em;
 }
 
-#enrolled {
+#enrolled, #cancelled {
     display: flex;
     text-align: center;
     flex-flow: column nowrap;
 }
 
-#enrolled span {
+#enrolled span, #cancelled span {
     margin: auto;
     font-style: italic;
     font-size: 1.5em;
@@ -36,4 +36,8 @@
     margin: auto;
     margin-top: 0.5em;
     font-size: 1.2em;
+}
+
+OverlayTrigger {
+    color: aqua;
 }
