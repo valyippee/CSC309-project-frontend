@@ -11,6 +11,8 @@ import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { MapPin, Phone, Check } from "react-feather";
 import moment from "moment";
+import StudioImageCarousel from "../components/studios/StudioImageCarousel";
+
 
 const StudioPage = () => {
   let { studio_id } = useParams();
@@ -114,8 +116,8 @@ const StudioPage = () => {
               </div>
             </div>
             <div className="studio-general-info-container">
-              <div className="studio-image-container">
-                <img src={studioInfo.images[0].studio_image}></img>
+              <div className="studio-images-container">
+                <StudioImageCarousel images={studioInfo.images}/>
               </div>
               <div className="studio-info-labels-container">
                 <h3>Contact</h3>
