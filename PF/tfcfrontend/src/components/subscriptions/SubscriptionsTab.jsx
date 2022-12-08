@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react'
 import { useEffect } from 'react'
 import AuthContext from '../../api/AuthContext'
 import { cancelUserSubscription, getUserSubscription } from '../../api/requests'
-import Subscription from './Subscription'
-import './Subscription.css'
+import UserSubscription from './UserSubscription'
+import './UserSubscription.css'
 
 function SubscriptionsTab() {
 
@@ -30,7 +30,7 @@ function SubscriptionsTab() {
 
         {userSubscription ?
         <div className="user-subscription-card-container">
-          <Subscription subscription={userSubscription} cancelSubscription={cancelSubscription}/>
+          <UserSubscription subscription={userSubscription} cancelSubscription={cancelSubscription}/>
         </div>
         :
         <div className="subscriptions-link">
