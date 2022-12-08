@@ -140,18 +140,6 @@ export function getFuturePayments(payments, setPayments, offset, token) {
     });
 }
 
-
-export function getUserSubscription(setUserSubscription, token) {
-    axios.get(server_url + "api/subscriptions/mysubscription/", {
-        headers: {
-            Authorization: 'Token ' + token,
-        }
-    })
-    .then(res => {
-        setUserSubscription(res.data)
-    })
-}
-
 export function subscribe(subscriptionPlan, token, setSuccessInfo, setErrorInfo) {
     axios.post(server_url + "api/subscriptions/" + subscriptionPlan.id + "/subscribe/", {}, {
         headers: {
