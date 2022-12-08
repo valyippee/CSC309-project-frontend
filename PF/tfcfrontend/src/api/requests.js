@@ -332,12 +332,17 @@ export function getStudioInfo(setStudioInfo, studioId) {
     })
 }
 
-export function getListOfStudios(setStudios, location, params, setStudiosPaginationNextUrl) {
+export function getListOfStudios(setStudios, location, params, setStudiosPaginationNextUrl, setResultsExists) {
     const locationPathString = location.lng + "," + location.lat + "/"
     
     axios.get(server_url + "api/studios/list/" + locationPathString, {params: params})
     .then((res) => {
         setStudiosPaginationNextUrl(res.data.next)
+        if (res.data.results.length === 0) {
+            setResultsExists(false)
+        } else {
+            setResultsExists(true)
+        }
         setStudios(res.data.results)
     })
 }
