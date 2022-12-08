@@ -1,7 +1,6 @@
 import {React, useState, useContext} from 'react'
 import AuthContext from '../api/AuthContext'
 import './RegisterPage.css'
-import { register } from '../api/requests'
 
 function RegisterPage() {
 

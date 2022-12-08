@@ -12,8 +12,9 @@ import Row from 'react-bootstrap/Row';
 function Home() {
   const [currentLocation, setCurrentLocation] = useState({lat: 43.65, lng: -79.38}) // DEFAULT COORDS is TORONTO
   const [studios, setStudios] = useState([])
-  const [selectedFilterTags, setSelectedFilterTags] = useState({})
+  const [selectedFilterTags, setSelectedFilterTags] = useState(null)
   const [studiosPaginationNextUrl, setStudiosPaginationNextUrl] = useState("")
+  const [resultsExists, setResultsExists] = useState(true)
 
   let {searchString} = useContext(SearchContext)
   
@@ -27,15 +28,17 @@ function Home() {
 
   useEffect(() => {
     if (searchString === null) { // Not navigated by search
-      getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl)
+      getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl, setResultsExists)
+    } else if (selectedFilterTags) {
+      getListOfStudios(setStudios, currentLocation, selectedFilterTags, setStudiosPaginationNextUrl, setResultsExists)
     }
   }, [currentLocation, selectedFilterTags])
 
   useEffect(() => {
     if (searchString !== "") { // Get list of studios by search string
-      getListOfStudios(setStudios, currentLocation, {"search": searchString}, setStudiosPaginationNextUrl)
+      getListOfStudios(setStudios, currentLocation, {"search": searchString}, setStudiosPaginationNextUrl, setResultsExists)
     } else { // Search string is empty so return all studios
-      getListOfStudios(setStudios, currentLocation, {}, setStudiosPaginationNextUrl)
+      getListOfStudios(setStudios, currentLocation, {}, setStudiosPaginationNextUrl, setResultsExists)
     }
   }, [searchString])
 
@@ -50,15 +53,21 @@ function Home() {
     <>
       <Title title="Studios"/>
       <div className="homepage-body-container">
-        <div className="studio-cards-container" onScroll={(e) => {handleStudioCardsScroll(e)}}>
-          <Row style={{width: "100%"}}>
-            {studios.map((studio) => (
-              <Col key={studio.id} xs={12} sm={6} md={6} lg={6} xl={6} xxl={4}>
-                <StudioCard key={studio.id} studio={studio} />
-              </Col>
-            ))}
-          </Row>
-        </div>
+        {resultsExists? (
+          <div className="studio-cards-container" onScroll={(e) => {handleStudioCardsScroll(e)}}>
+            <Row style={{width: "100%"}}>
+              {studios.map((studio) => (
+                <Col key={studio.id} xs={12} sm={6} md={6} lg={6} xl={6} xxl={4}>
+                  <StudioCard key={studio.id} studio={studio} />
+                </Col>
+              ))}
+            </Row>
+          </div>
+        ) : (
+          <div className="no-results-container">
+            <p>No Results</p>
+          </div>
+        )}
         <div className="map-filterbar-container">
           <Map studios={studios} currentLocation={currentLocation}/>
           <StudiosFilterBar setSelectedFilterTags={setSelectedFilterTags}/>

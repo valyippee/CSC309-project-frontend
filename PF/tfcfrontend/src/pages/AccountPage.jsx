@@ -20,7 +20,7 @@ function AccountPage({match}) {
 
     useEffect(() => {
         setKey(tab)
-    }, [])
+    }, [tab])
 
     const onSelect = (e) => {
         setKey(e)
