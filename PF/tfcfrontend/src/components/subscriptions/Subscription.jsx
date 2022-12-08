@@ -36,7 +36,7 @@ function Subscription({subscription, status, setSuccessInfo, setErrorInfo}) {
   }
 
   return (
-    <div className="card user-subscription">
+    <div className="card subscription">
         <div className="card-body d-flex flex-column">
             <h2 className="card-title mb-4 mt-auto">{subscription.name}</h2>
             {subscription.plan===0 && <p className="card-text mb-4 mt-auto">Monthly</p>}
