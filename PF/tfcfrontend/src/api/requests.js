@@ -109,7 +109,7 @@ export function getUserSubscription(setUserSubscription, token) {
             Authorization: 'Token ' + token
         },
     }).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             setUserSubscription(res.data)
         } else {
             setUserSubscription(false)
@@ -143,7 +143,7 @@ export function getFuturePayments(payments, setPayments, offset, token) {
 
     let curr = new Date()
 
-    if (payments.length == 0) {
+    if (payments.length === 0) {
         curr = curr.toISOString()
         curr = curr.substring(0, curr.length-5);
     } else {
@@ -158,7 +158,7 @@ export function getFuturePayments(payments, setPayments, offset, token) {
             start_datetime: curr
         }
     }).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             setPayments([...payments, ...res.data.data.future])
         }
     });
@@ -218,7 +218,7 @@ export function getPaymentHistory(setPayments, token) {
             Authorization: 'Token ' + token
         },
     }).then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
             setPayments(res.data.data.history)
         }
     });
@@ -255,7 +255,7 @@ function getGeneralClassInfo(_class) {
     const otherInfo = {
         location: _class.studio_name,
         enrollEnabled: enrollEnabled,
-        classCancelled: _class.status == 2,
+        classCancelled: _class.status === 2,
         isRecurring: _class.is_recurring
     }
     return {...dateInfo, ...generalInfo, ...otherInfo}
@@ -382,7 +382,7 @@ export function getStudioClassSchedule(setClassData, studioId, params, userSched
                 // check if user is enrolled in each class
                 events.forEach(_class => {
                     for (var i = 0; i < userSchedule.length; i++) {
-                        if (_class.classId == userSchedule[i].classId 
+                        if (_class.classId === userSchedule[i].classId 
                                 && _class.start.valueOf() === userSchedule[i].start.valueOf()) {
                             _class.enrolled = true;
                             break;

@@ -13,7 +13,7 @@ function SubscriptionsTab() {
 
   useEffect(() => {
     getUserSubscription(setUserSubscription, token)
-  }, [])
+  }, [token])
 
   const cancelSubscription = () => {
     cancelUserSubscription(setCancelled, setUserSubscription, token)

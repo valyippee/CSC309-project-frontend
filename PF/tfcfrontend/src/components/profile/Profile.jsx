@@ -1,4 +1,4 @@
-import {React, useContext, authContext, useState} from 'react'
+import {React, useContext, useState} from 'react'
 import './Profile.css'
 import { patchProfile } from '../../api/requests'
 import AuthContext from '../../api/AuthContext'

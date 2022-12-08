@@ -10,7 +10,7 @@ function ProfileTab() {
     
     useEffect(() => {
         getProfile(setUser, token)
-    }, [])
+    }, [token])
 
     return (
     <div>
