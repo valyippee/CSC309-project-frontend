@@ -27,6 +27,7 @@ function UpcomingPayments() {
 
     return (
         <div className="payments-container d-flex align-items-stretch ">
+            {payments.length ?
             <InfiniteScroll
             dataLength={payments.length}
             next={fetchPayments}
@@ -38,6 +39,9 @@ function UpcomingPayments() {
             ))}
 
             </InfiniteScroll>
+            :
+            <p className="no-payments">You have no upcoming payments.</p>
+            }
         </div>
     )
 }
