@@ -1,0 +1,684 @@
+{
+	"info": {
+		"_postman_id": "3f2567a3-cac2-43fd-a2b7-95e678074ef6",
+		"name": "CSC309",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23630021"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"John\",\r\n    \"last_name\": \"Smith\",\r\n    \"email\": \"john.smith@gmail.com\",\r\n    \"password\": \"password\",\r\n    \"phone_number\": 123456789\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/accounts/register/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"register",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"john.smith@gmail.com\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/accounts/login/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/accounts/logout/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"logout",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get card info of user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/accounts/cardinfo/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"cardinfo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add or replace card info to user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"number\": \"4242424242424242\",\r\n    \"exp_month\": 10,\r\n    \"exp_year\": 2040,\r\n    \"cvc\": \"9999\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/accounts/cardinfo/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"cardinfo",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get payment history",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/accounts/paymenthistory/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"paymenthistory",
+								""
+							],
+							"query": [
+								{
+									"key": "start_datetime",
+									"value": "2022-11-20T00:00:00",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Profile page",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/accounts/profile/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit profile page",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Johnny",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/rebec/Downloads/forest.jpeg"
+								},
+								{
+									"key": "last_name",
+									"value": "Smit",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "johnny.smit@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "987654321",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/accounts/profile/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"accounts",
+								"profile",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Studios",
+			"item": [
+				{
+					"name": "Studio Info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/studios/:studio_id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								":studio_id"
+							],
+							"variable": [
+								{
+									"key": "studio_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Studios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/studios/list/43.656997372,-79.390331772?amenity=bank&class_name=Karate&coach=Coach Number 1&studio_name=U of T",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"list",
+								"43.656997372,-79.390331772"
+							],
+							"query": [
+								{
+									"key": "amenity",
+									"value": "bank"
+								},
+								{
+									"key": "class_name",
+									"value": "Karate"
+								},
+								{
+									"key": "coach",
+									"value": "Coach Number 1"
+								},
+								{
+									"key": "studio_name",
+									"value": "U of T"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Studio Class Schedule",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/studios/1/classes?start_time=12:00&weeks=4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"1",
+								"classes"
+							],
+							"query": [
+								{
+									"key": "start_time",
+									"value": "12:00"
+								},
+								{
+									"key": "end_time",
+									"value": "23:00",
+									"disabled": true
+								},
+								{
+									"key": "class_name",
+									"value": "Badminton",
+									"disabled": true
+								},
+								{
+									"key": "coach",
+									"value": "Chay",
+									"disabled": true
+								},
+								{
+									"key": "class_day",
+									"value": "0",
+									"disabled": true
+								},
+								{
+									"key": "weeks",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enrol in Class",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/studios/classes/1/enrol/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"classes",
+								"1",
+								"enrol",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Drop Class",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/studios/classes/1/drop/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"classes",
+								"1",
+								"drop",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Drop Class Instance",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"date\": \"2022-12-16\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/studios/classes/1/drop/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"classes",
+								"1",
+								"drop",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Class Schedule",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/studios/classes/schedule/?start_date=2022-11-20",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"classes",
+								"schedule",
+								""
+							],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "2022-11-20"
+								},
+								{
+									"key": "weeks",
+									"value": "4",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Class History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/studios/classes/history/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"studios",
+								"classes",
+								"history",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscriptions",
+			"item": [
+				{
+					"name": "Get all subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/subscriptions/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe or update subscription",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/subscriptions/1/subscribe/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"1",
+								"subscribe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel my current subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/subscriptions/cancel/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"subscriptions",
+								"cancel",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "5e76c54552cc9b18b4766dde1d5fcea038dcc934",
+			"type": "string"
+		}
+	]
+}
